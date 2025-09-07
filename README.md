@@ -1,4 +1,4 @@
-# minhaserigrafia
+# App Minha Serigrafia
 
 A new Flutter project.
 
