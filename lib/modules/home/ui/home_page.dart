@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -12,11 +13,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int _counter = 0;
 
-  void _incrementCounter() {
-    setState(() {
-      _counter++;
-    });
-  }
+  void _incrementCounter() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -38,8 +35,19 @@ class _HomePageState extends State<HomePage> {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
+        onPressed: () async {
+          final GoogleSignIn signIn = GoogleSignIn.instance;
+          await signIn.initialize();
+          try {
+            GoogleSignInAccount user = await signIn.authenticate();
+            print('sucesso -----------------');
+            print(user.email);
+          } catch (e) {
+            print('Erro -----------------------------------------');
+            print(e.toString());
+          }
+        },
+        tooltip: 'Login com google',
         child: const Icon(Icons.add),
       ),
     );
