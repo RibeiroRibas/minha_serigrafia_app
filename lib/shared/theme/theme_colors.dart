@@ -10,13 +10,4 @@ class ThemeColors {
   static const Color grayLight2 = Color.fromRGBO(215, 215, 215, 1.0);
   static const Color grayLight3 = Color.fromRGBO(147, 147, 147, 1.0);
 
-  // fixed colors
-  static const Color shadowAnimationColor = Colors.white24;
-  static const Color principalPosition = Colors.orange;
-  static const Color secondaryPosition = Colors.yellow;
-  static const Color neutralPosition = Colors.white;
-  static const Color overall = Color.fromRGBO(0, 255, 66, 1);
-
-  static const Color selectedPosition = Colors.orange;
-  static const Color ownGoal = Colors.red;
 }

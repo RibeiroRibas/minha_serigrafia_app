@@ -8,9 +8,10 @@ ThemeData defaultTheme = ThemeData(
     surfaceTintColor: Colors.transparent,
   ),
   drawerTheme: const DrawerThemeData(surfaceTintColor: Colors.white),
+  scaffoldBackgroundColor: ThemeColors.grayLight,
   colorScheme: const ColorScheme(
     brightness: Brightness.light,
-    primary: ThemeColors.overall,
+    primary: Colors.black,
     onPrimary: Colors.black,
     secondary: ThemeColors.grayDark,
     onSecondary: Colors.white,
@@ -26,24 +27,38 @@ ThemeData defaultTheme = ThemeData(
   textTheme: const TextTheme(
       bodyLarge: TextStyle(
           fontSize: 18,
+          color: Colors.black,
           fontWeight: FontWeight.bold,
           overflow: TextOverflow.fade),
-      bodyMedium: TextStyle(fontSize: 16, overflow: TextOverflow.fade),
+      bodyMedium: TextStyle(color: Colors.black, fontSize: 16, overflow: TextOverflow.fade),
       bodySmall: TextStyle(
-          fontSize: 12, color: Colors.white, overflow: TextOverflow.fade)),
+          fontSize: 12, color: Colors.black, overflow: TextOverflow.fade),
+  ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
       shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(15.0),
+        borderRadius: BorderRadius.circular(10.0),
       ),
       minimumSize: const Size(double.infinity, 60),
-      backgroundColor: ThemeColors.overall,
+      backgroundColor: Colors.black,
       foregroundColor: Colors.white,
       textStyle: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
+          fontSize: 18,
+          fontWeight: FontWeight.w600,
           fontFamily: 'Roboto',
           overflow: TextOverflow.fade),
+    ),
+  ),
+  outlinedButtonTheme: OutlinedButtonThemeData(
+    style: OutlinedButton.styleFrom(
+      padding: EdgeInsets.symmetric(vertical: 14, horizontal: 28),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      side: BorderSide(color: ThemeColors.grayLight3, width: 2),
+      minimumSize: const Size(double.infinity, 60),
+      backgroundColor: Colors.white,
+      foregroundColor: Colors.black,
+      textStyle: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
+      elevation: 0,
     ),
   ),
   bottomNavigationBarTheme: const BottomNavigationBarThemeData(
@@ -68,18 +83,30 @@ ThemeData defaultTheme = ThemeData(
       foregroundColor: ThemeColors.grayDark,
     ),
   ),
-  iconTheme: const IconThemeData(color: Colors.white),
-  inputDecorationTheme: const InputDecorationTheme(
-    labelStyle: TextStyle(
-        color: Colors.white, fontSize: 16, overflow: TextOverflow.fade),
+  iconTheme: const IconThemeData(color: Colors.black),
+  inputDecorationTheme: InputDecorationTheme(
+
+    labelStyle: const TextStyle(
+        color: ThemeColors.grayLight2, fontSize: 16, overflow: TextOverflow.fade),
+    floatingLabelStyle: const TextStyle(
+      color: Colors.black, // Focused label color
+      fontSize: 16,
+      fontWeight: FontWeight.bold,
+      overflow: TextOverflow.fade,
+    ),
     enabledBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
       borderSide: BorderSide(
-        color: Colors.white,
+        color: ThemeColors.grayLight2,
         width: 2.0,
       ),
     ),
-    border: OutlineInputBorder(
-      borderSide: BorderSide(color: Colors.white, width: 2.0),
+    focusedBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: const BorderSide(
+        color: Colors.black, // Set your desired focus color
+        width: 2.0,
+      ),
     ),
   ),
   dividerTheme: const DividerThemeData(color: ThemeColors.grayLight3),

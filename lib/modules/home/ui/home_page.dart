@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_sign_in/google_sign_in.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key, required this.title});
@@ -36,16 +35,16 @@ class _HomePageState extends State<HomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () async {
-          final GoogleSignIn signIn = GoogleSignIn.instance;
-          await signIn.initialize();
-          try {
-            GoogleSignInAccount user = await signIn.authenticate();
-            print('sucesso -----------------');
-            print(user.email);
-          } catch (e) {
-            print('Erro -----------------------------------------');
-            print(e.toString());
-          }
+          // final GoogleSignIn signIn = GoogleSignIn.instance;
+          // await signIn.initialize();
+          // try {
+          //   GoogleSignInAccount user = await signIn.authenticate();
+          //   print('sucesso -----------------');
+          //   print(user.email);
+          // } catch (e) {
+          //   print('Erro -----------------------------------------');
+          //   print(e.toString());
+          // }
         },
         tooltip: 'Login com google',
         child: const Icon(Icons.add),
