@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 import 'package:minhaserigrafia/shared/ui/header_component.dart';
 import 'package:minhaserigrafia/shared/ui/primary_container_component.dart';
 
@@ -35,7 +36,7 @@ class _CompleteSignInPageState extends State<CompleteSignInPage> {
                           ),
                           Text(
                             'Complete seu Cadastro',
-                            style: Theme.of(context).textTheme.bodyLarge,
+                            style: Theme.of(context).textTheme.titleMedium,
                           ),
                         ],
                       ),
@@ -48,6 +49,9 @@ class _CompleteSignInPageState extends State<CompleteSignInPage> {
                       TextFormField(
                         style: const TextStyle(color: Colors.black),
                         decoration: InputDecoration(labelText: 'Celular'),
+                        inputFormatters: [
+                          MaskedInputFormatter('(##) #####-####'),
+                        ],
                       ),
                       ElevatedButton(onPressed: () {}, child: Text('Concluir')),
                     ],

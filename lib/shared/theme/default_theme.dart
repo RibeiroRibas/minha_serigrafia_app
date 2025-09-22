@@ -25,10 +25,15 @@ ThemeData defaultTheme = ThemeData(
     onSurfaceVariant: ThemeColors.grayLight3,
   ),
   textTheme: const TextTheme(
+    titleMedium:TextStyle(
+        fontSize:22,
+        color: Colors.black,
+        fontWeight: FontWeight.bold,
+        overflow: TextOverflow.fade),
       bodyLarge: TextStyle(
-          fontSize: 18,
+          fontSize:16,
           color: Colors.black,
-          fontWeight: FontWeight.bold,
+          fontWeight: FontWeight.w500,
           overflow: TextOverflow.fade),
       bodyMedium: TextStyle(color: Colors.black, fontSize: 16, overflow: TextOverflow.fade),
       bodySmall: TextStyle(
@@ -85,7 +90,8 @@ ThemeData defaultTheme = ThemeData(
   ),
   iconTheme: const IconThemeData(color: Colors.black),
   inputDecorationTheme: InputDecorationTheme(
-
+    errorStyle: const TextStyle(
+        color: Colors.red, fontSize: 12, overflow: TextOverflow.fade),
     labelStyle: const TextStyle(
         color: ThemeColors.grayLight2, fontSize: 16, overflow: TextOverflow.fade),
     floatingLabelStyle: const TextStyle(
@@ -105,6 +111,20 @@ ThemeData defaultTheme = ThemeData(
       borderRadius: BorderRadius.circular(12),
       borderSide: const BorderSide(
         color: Colors.black, // Set your desired focus color
+        width: 2.0,
+      ),
+    ),
+    focusedErrorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: const BorderSide(
+        color: Colors.red,
+        width: 2.0,
+      ),
+    ),
+    errorBorder: OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12),
+      borderSide: const BorderSide(
+        color: Colors.red,
         width: 2.0,
       ),
     ),
