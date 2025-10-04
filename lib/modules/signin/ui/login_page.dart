@@ -86,7 +86,7 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class _SignUp extends StatelessWidget {
-  const _SignUp({super.key});
+  const _SignUp();
 
   @override
   Widget build(BuildContext context) {
@@ -114,7 +114,7 @@ class _SignUp extends StatelessWidget {
 }
 
 class _LoginWithGoogle extends StatelessWidget {
-  const _LoginWithGoogle({super.key});
+  const _LoginWithGoogle();
 
   @override
   Widget build(BuildContext context) {
