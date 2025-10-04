@@ -10,26 +10,24 @@ import 'package:minhaserigrafia/modules/signin/service/sign_in_service.dart';
 import 'package:minhaserigrafia/modules/core/module/core_module.dart';
 import 'package:minhaserigrafia/modules/signin/sign_in_route_navigator.dart';
 import 'package:minhaserigrafia/modules/signin/ui/login_page.dart';
+import 'package:minhaserigrafia/modules/splash/splash_page.dart';
+import 'package:minhaserigrafia/modules/splash/splash_route_navigator.dart';
 import 'package:minhaserigrafia/shared/routes/route_named.dart';
 
-class LoginModule extends Module {
+class SplashModule extends Module {
 
   @override
   List<Module> get imports => [CoreModule()];
 
   @override
   void binds(i) {
-    i.addLazySingleton(LoginWithEmailAndPasswordBloc.new);
-    i.addLazySingleton(LoginWithGoogleBloc.new);
-    i.addLazySingleton(SignInService.new);
-    i.addLazySingleton(CustomAuthRepository.new);
     i.addSingleton(FirebaseAuthRepository.new);
-    i.addLazySingleton(GoogleAuthRepository.new);
-    i.addLazySingleton(SignInRouteNavigator.new);
+    i.addSingleton(AuthenticationBloc.new);
+    i.addSingleton(SplashRouteNavigator.new);
   }
 
   @override
   void routes(r) {
-    r.child(startRote, child: (_) => const LoginPage());
+    r.child(startRote, child: (_) => const SplashPage());
   }
 }

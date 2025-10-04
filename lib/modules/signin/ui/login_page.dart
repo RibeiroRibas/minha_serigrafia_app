@@ -1,5 +1,13 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:formz/formz.dart';
+import 'package:minhaserigrafia/modules/signin/bloc/login_with_email_and_password_bloc.dart';
+import 'package:minhaserigrafia/modules/signin/bloc/login_with_google_bloc.dart';
+import 'package:minhaserigrafia/modules/signin/sign_in_route_navigator.dart';
+import 'package:minhaserigrafia/modules/signin/ui/login_form_component.dart';
+import 'package:minhaserigrafia/shared/routes/route_named.dart';
 import 'package:minhaserigrafia/shared/ui/header_component.dart';
 import 'package:minhaserigrafia/shared/ui/primary_container_component.dart';
 
@@ -11,7 +19,7 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  bool _obscurePassword = true;
+  final navigator = Modular.get<SignInRouteNavigator>();
 
   @override
   Widget build(BuildContext context) {
@@ -26,79 +34,106 @@ class _LoginPageState extends State<LoginPage> {
               HeaderComponent(),
               PrimaryContainerComponent(
                 height: 500,
-                body: Form(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-
-                      TextFormField(
-                        style: const TextStyle(color: Colors.black),
-                        decoration: InputDecoration(labelText: 'E-mail'),
-                      ),
-                      TextFormField(
-                        style: const TextStyle(color: Colors.black),
-                        decoration: InputDecoration(
-                          labelText: 'Senha',
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              _obscurePassword
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                            ),
-                            onPressed: () {
-                              setState(() {
-                                _obscurePassword = !_obscurePassword;
-                              });
+                body: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    BlocProvider(
+                      create: (BuildContext context) =>
+                          Modular.get<LoginWithEmailAndPasswordBloc>(),
+                      child: LoginFormComponent(),
+                    ),
+                    _SignUp(),
+                    Text('Ou'),
+                    BlocProvider(
+                      create: (BuildContext context) =>
+                          Modular.get<LoginWithGoogleBloc>(),
+                      child:
+                          BlocListener<
+                            LoginWithGoogleBloc,
+                            LoginWithGoogleState
+                          >(
+                            listener: (context, state) {
+                              if (state.status.isSuccess) {
+                                if (state.isFirstAccess) {
+                                  navigator.goTo(
+                                    '$signUpRoute$completeSignUpRoute',
+                                  );
+                                } else {
+                                  navigator.goTo(homeRoute);
+                                }
+                              } else if (state.status.isFailure) {
+                                ScaffoldMessenger.of(context)
+                                  ..hideCurrentSnackBar()
+                                  ..showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Authentication Failure'),
+                                    ),
+                                  );
+                              }
                             },
+                            child: _LoginWithGoogle(),
                           ),
-                        ),
-                        obscureText: _obscurePassword,
-                      ),
-                      ElevatedButton(onPressed: () {}, child: Text('Entrar')),
-                      RichText(
-                        textAlign: TextAlign.center,
-                        text: TextSpan(
-                          style: TextStyle(fontSize: 16),
-                          children: [
-                            TextSpan(
-                              text: 'Ainda não possui uma conta?\n',
-                              style: TextStyle(color: Colors.black),
-                            ),
-                            TextSpan(
-                              text: 'Cadastre-se!',
-                              style: TextStyle(
-                                color: Colors.blue,
-                                decoration: TextDecoration.underline,
-                              ),
-                              recognizer: TapGestureRecognizer()
-                                ..onTap = () async {},
-                            ),
-                          ],
-                        ),
-                      ),
-                      Text('Ou'),
-                      OutlinedButton.icon(
-                        icon: Image.asset(
-                          'assets/images/google-color.png',
-                          height: 24,
-                          width: 24,
-                        ),
-                        label: Text(
-                          'Continue com Google',
-                          style: TextStyle(fontSize: 16),
-                        ),
-                        onPressed: () {
-                          // Add your Google sign-in logic here
-                        },
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
               ),
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+class _SignUp extends StatelessWidget {
+  const _SignUp({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return RichText(
+      textAlign: TextAlign.center,
+      text: TextSpan(
+        style: TextStyle(fontSize: 16),
+        children: [
+          TextSpan(
+            text: 'Ainda não possui uma conta?\n',
+            style: TextStyle(color: Colors.black),
+          ),
+          TextSpan(
+            text: 'Cadastre-se!',
+            style: TextStyle(
+              color: Colors.blue,
+              decoration: TextDecoration.underline,
+            ),
+            recognizer: TapGestureRecognizer()..onTap = () async {},
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _LoginWithGoogle extends StatelessWidget {
+  const _LoginWithGoogle({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final isInProgress = context.select(
+      (LoginWithGoogleBloc bloc) => bloc.state.status.isInProgress,
+    );
+
+    if (isInProgress) return const CircularProgressIndicator();
+
+    return OutlinedButton.icon(
+      icon: Image.asset(
+        'assets/images/google-color.png',
+        height: 24,
+        width: 24,
+      ),
+      label: Text('Continue com Google', style: TextStyle(fontSize: 16)),
+      onPressed: () => BlocProvider.of<LoginWithGoogleBloc>(
+        context,
+      ).add(const LoginWithGoogleSubmitted()),
     );
   }
 }
