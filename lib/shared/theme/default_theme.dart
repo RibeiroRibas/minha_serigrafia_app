@@ -8,6 +8,18 @@ ThemeData defaultTheme = ThemeData(
     surfaceTintColor: Colors.transparent,
   ),
   drawerTheme: const DrawerThemeData(surfaceTintColor: Colors.white),
+  snackBarTheme: const SnackBarThemeData(
+    backgroundColor: Colors.black,
+    contentTextStyle: TextStyle(
+      color: Colors.white,
+      fontWeight: FontWeight.bold,
+    ),
+    elevation: 6,
+    behavior: SnackBarBehavior.floating,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(10)),
+    ),
+  ),
   scaffoldBackgroundColor: ThemeColors.grayLight,
   colorScheme: const ColorScheme(
     brightness: Brightness.light,

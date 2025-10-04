@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
+import 'package:minhaserigrafia/modules/signup/sign_up_route_navigator.dart';
+import 'package:minhaserigrafia/shared/routes/route_named.dart';
 import 'package:minhaserigrafia/shared/ui/header_component.dart';
 import 'package:minhaserigrafia/shared/ui/primary_container_component.dart';
 
@@ -11,6 +14,8 @@ class CompleteSignInPage extends StatefulWidget {
 }
 
 class _CompleteSignInPageState extends State<CompleteSignInPage> {
+  final _navigator = Modular.get<SignUpRouteNavigator>();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +36,7 @@ class _CompleteSignInPageState extends State<CompleteSignInPage> {
                       Row(
                         children: [
                           IconButton(
-                            onPressed: () {},
+                            onPressed: () => _navigator.goTo('$signInRoute/'),
                             icon: Icon(Icons.arrow_back),
                           ),
                           Text(

@@ -38,6 +38,12 @@ dependencies:
   flutter_bloc: ^9.1.1
   google_sign_in: ^7.2.0
   flutter_multi_formatter: ^2.13.10
+  firebase_auth: ^6.1.0
+  firebase_core: ^4.1.1
+  equatable: ^2.0.7
+  flutter_secure_storage: ^9.2.4
+  dio: ^5.9.0
+  formz: ^0.8.0
 
 dev_dependencies:
   flutter_test:
