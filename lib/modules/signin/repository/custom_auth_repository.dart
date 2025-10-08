@@ -20,7 +20,7 @@ class CustomAuthRepository {
       final codeString = e.response?.data?['code']?.toString() ?? '0';
       throw CustomAuthException(int.tryParse(codeString) ?? 0);
     } catch (e) {
-      throw Exception('Error during custom signin login: ${e.toString()}');
+      throw Exception('Error during custom login: ${e.toString()}');
     }
   }
 }

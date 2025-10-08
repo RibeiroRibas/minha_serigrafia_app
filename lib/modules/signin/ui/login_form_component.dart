@@ -2,51 +2,47 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:formz/formz.dart';
-import 'package:minhaserigrafia/modules/signin/bloc/login_with_email_and_password_bloc.dart';
+import 'package:minhaserigrafia/modules/signin/cubit/login_with_email_and_password_cubit.dart';
 import 'package:minhaserigrafia/modules/signin/exceptions/error_messages.dart';
+import 'package:minhaserigrafia/modules/signin/sign_in_route_navigator.dart';
 import 'package:minhaserigrafia/shared/messages.dart';
+import 'package:minhaserigrafia/shared/routes/route_named.dart';
+import 'package:minhaserigrafia/shared/ui/custom_snack_bar.dart';
 
 class LoginFormComponent extends StatelessWidget {
   const LoginFormComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (BuildContext context) =>
-          Modular.get<LoginWithEmailAndPasswordBloc>(),
-      child:
-          BlocListener<
-            LoginWithEmailAndPasswordBloc,
-            LoginWithEmailAndPasswordState
-          >(
-            listener: (context, state) {
-              if (state.status.isFailure) {
-                if (state.errorMessage == invalidFirebaseUserCredentials) {
-                  scaffoldMessage(context, invalidFirebaseUserCredentials);
-                } else {
-                  String message = '$genericErrorMessage ${state.errorCode}';
-                  scaffoldMessage(context, message);
-                }
-              }
-            },
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _UsernameInput(),
-                const Padding(padding: EdgeInsets.all(12)),
-                _PasswordInput(),
-                const Padding(padding: EdgeInsets.all(12)),
-                _LoginButton(),
-              ],
-            ),
-          ),
-    );
-  }
+    final navigator = Modular.get<SignInRouteNavigator>();
 
-  void scaffoldMessage(BuildContext context, String message) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(message)));
+    return BlocListener<
+      LoginWithEmailAndPasswordCubit,
+      LoginWithEmailAndPasswordState
+    >(
+      listener: (context, state) {
+        if (state.status.isFailure) {
+          if (state.errorMessage == invalidFirebaseUserCredentials) {
+            showCustomSnackBar(context, invalidFirebaseUserCredentials);
+          } else {
+            String message = '$genericErrorMessage ${state.errorCode}';
+            showCustomSnackBar(context, message);
+          }
+        } else if (state.status.isSuccess) {
+          navigator.goTo(homeRoute);
+        }
+      },
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          _UsernameInput(),
+          const Padding(padding: EdgeInsets.all(12)),
+          _PasswordInput(),
+          const Padding(padding: EdgeInsets.all(12)),
+          _LoginButton(),
+        ],
+      ),
+    );
   }
 }
 
@@ -54,15 +50,15 @@ class _UsernameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final displayError = context.select(
-      (LoginWithEmailAndPasswordBloc bloc) => bloc.state.username.displayError,
+      (LoginWithEmailAndPasswordCubit bloc) => bloc.state.email.displayError,
     );
 
     return TextField(
       key: const Key('loginForm_usernameInput_textField'),
       onChanged: (email) {
-        Modular.get<LoginWithEmailAndPasswordBloc>().add(
-          LoginUsernameChanged(email),
-        );
+        BlocProvider.of<LoginWithEmailAndPasswordCubit>(
+          context,
+        ).onEmailChanged(email);
       },
       style: const TextStyle(color: Colors.black),
       decoration: InputDecoration(
@@ -86,17 +82,17 @@ class _PasswordInputState extends State<_PasswordInput> {
   @override
   Widget build(BuildContext context) {
     final displayError = context.select(
-      (LoginWithEmailAndPasswordBloc bloc) => bloc.state.password.displayError,
+      (LoginWithEmailAndPasswordCubit bloc) => bloc.state.password.displayError,
     );
 
     return TextField(
       key: const Key('loginForm_passwordInput_textField'),
       onChanged: (password) {
-        Modular.get<LoginWithEmailAndPasswordBloc>().add(
-          LoginPasswordChanged(password),
-        );
+        BlocProvider.of<LoginWithEmailAndPasswordCubit>(
+          context,
+        ).onPasswordChanged(password);
       },
-      obscureText: true,
+      obscureText: _obscurePassword,
       style: const TextStyle(color: Colors.black),
       decoration: InputDecoration(
         labelText: 'Senha',
@@ -120,23 +116,24 @@ class _LoginButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isInProgress = context.select(
-      (LoginWithEmailAndPasswordBloc bloc) => bloc.state.status.isInProgress,
+      (LoginWithEmailAndPasswordCubit bloc) => bloc.state.status.isInProgress,
     );
 
     if (isInProgress) return const CircularProgressIndicator();
 
     final isValid = context.select(
-      (LoginWithEmailAndPasswordBloc bloc) => bloc.state.isValid,
+      (LoginWithEmailAndPasswordCubit bloc) => bloc.state.isValid,
     );
 
     return ElevatedButton(
-      onPressed: () {
-        if (isValid) {
-          Modular.get<LoginWithEmailAndPasswordBloc>().add(
-            const LoginWithEmailAndPasswordSubmitted(),
-          );
-        }
-      },
+      key: const Key('loginForm_continue_raisedButton'),
+      onPressed: isValid
+          ? () {
+              BlocProvider.of<LoginWithEmailAndPasswordCubit>(
+                context,
+              ).onSignInWithEmailSubmitted();
+            }
+          : null,
       child: const Text('Entrar'),
     );
   }
