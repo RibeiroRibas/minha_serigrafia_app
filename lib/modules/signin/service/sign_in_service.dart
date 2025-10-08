@@ -28,13 +28,7 @@ class SignInService {
       UserCredential userCredential = await _firebaseAuthRepository
           .signInWithEmailAndPassword(email: email, password: password);
       String? firebaseIdToken = await userCredential.user?.getIdToken();
-      dynamic response = await _customAuthRepository.login(
-        firebaseIdToken: firebaseIdToken!,
-      );
-      _currentAuthUserService.setCurrentUserFromJson(
-        response.data as Map<String, dynamic>,
-      );
-      _currentAuthUserService.setFirebaseIdToken(firebaseIdToken);
+      await _customAuthLogin(firebaseIdToken);
     } on CustomFirebaseAuthException {
       rethrow;
     } on CustomAuthException {
@@ -50,17 +44,10 @@ class SignInService {
     try {
       final googleUser = await _googleAuthRepository.logInWithGoogle();
       String? idToken = googleUser.authentication.idToken;
-
       UserCredential userCredential = await _firebaseAuthRepository
           .signInWithCredential(idToken: idToken!);
       String? firebaseIdToken = await userCredential.user?.getIdToken();
-      dynamic response = await _customAuthRepository.login(
-        firebaseIdToken: firebaseIdToken!,
-      );
-      _currentAuthUserService.setCurrentUserFromJson(
-        response as Map<String, dynamic>,
-      );
-      _currentAuthUserService.setFirebaseIdToken(firebaseIdToken);
+      await _customAuthLogin(firebaseIdToken);
       return _currentAuthUserService.isFirstAccess;
     } on CustomFirebaseAuthException {
       rethrow;
@@ -71,5 +58,15 @@ class SignInService {
     } catch (e) {
       throw Exception('SignInService signInWithGoogle: ${e.toString()}');
     }
+  }
+
+  Future<void> _customAuthLogin(String? firebaseIdToken) async {
+    dynamic response = await _customAuthRepository.login(
+      firebaseIdToken: firebaseIdToken!,
+    );
+    _currentAuthUserService.setCurrentUserFromJson(
+      response as Map<String, dynamic>,
+    );
+    _currentAuthUserService.setFirebaseIdToken(firebaseIdToken);
   }
 }

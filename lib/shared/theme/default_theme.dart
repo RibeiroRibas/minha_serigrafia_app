@@ -9,7 +9,7 @@ ThemeData defaultTheme = ThemeData(
   ),
   drawerTheme: const DrawerThemeData(surfaceTintColor: Colors.white),
   snackBarTheme: const SnackBarThemeData(
-    backgroundColor: Colors.black,
+    backgroundColor: Colors.red,
     contentTextStyle: TextStyle(
       color: Colors.white,
       fontWeight: FontWeight.bold,
@@ -37,33 +37,43 @@ ThemeData defaultTheme = ThemeData(
     onSurfaceVariant: ThemeColors.grayLight3,
   ),
   textTheme: const TextTheme(
-    titleMedium:TextStyle(
-        fontSize:22,
-        color: Colors.black,
-        fontWeight: FontWeight.bold,
-        overflow: TextOverflow.fade),
-      bodyLarge: TextStyle(
-          fontSize:16,
-          color: Colors.black,
-          fontWeight: FontWeight.w500,
-          overflow: TextOverflow.fade),
-      bodyMedium: TextStyle(color: Colors.black, fontSize: 16, overflow: TextOverflow.fade),
-      bodySmall: TextStyle(
-          fontSize: 12, color: Colors.black, overflow: TextOverflow.fade),
+    titleMedium: TextStyle(
+      fontSize: 22,
+      color: Colors.black,
+      fontWeight: FontWeight.bold,
+      overflow: TextOverflow.fade,
+    ),
+    bodyLarge: TextStyle(
+      fontSize: 16,
+      color: Colors.black,
+      fontWeight: FontWeight.w500,
+      overflow: TextOverflow.fade,
+    ),
+    bodyMedium: TextStyle(
+      color: Colors.black,
+      fontSize: 16,
+      overflow: TextOverflow.fade,
+    ),
+    bodySmall: TextStyle(
+      fontSize: 12,
+      color: Colors.black,
+      overflow: TextOverflow.fade,
+    ),
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(10.0),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       minimumSize: const Size(double.infinity, 60),
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,
+      disabledBackgroundColor: ThemeColors.grayLight,
+      disabledForegroundColor: ThemeColors.grayLight3,
       textStyle: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.w600,
-          fontFamily: 'Roboto',
-          overflow: TextOverflow.fade),
+        fontSize: 18,
+        fontWeight: FontWeight.w600,
+        fontFamily: 'Roboto',
+        overflow: TextOverflow.fade,
+      ),
     ),
   ),
   outlinedButtonTheme: OutlinedButtonThemeData(
@@ -82,30 +92,39 @@ ThemeData defaultTheme = ThemeData(
     backgroundColor: ThemeColors.blueDark,
     unselectedItemColor: ThemeColors.grayLight,
     unselectedLabelStyle: TextStyle(
-        fontSize: 10,
-        fontWeight: FontWeight.normal,
-        overflow: TextOverflow.fade),
+      fontSize: 10,
+      fontWeight: FontWeight.normal,
+      overflow: TextOverflow.fade,
+    ),
     selectedLabelStyle: TextStyle(
-        fontSize: 10,
-        fontWeight: FontWeight.normal,
-        overflow: TextOverflow.fade),
+      fontSize: 10,
+      fontWeight: FontWeight.normal,
+      overflow: TextOverflow.fade,
+    ),
   ),
   textButtonTheme: TextButtonThemeData(
     style: TextButton.styleFrom(
       textStyle: const TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          fontFamily: 'Roboto',
-          overflow: TextOverflow.fade),
+        fontSize: 16,
+        fontWeight: FontWeight.bold,
+        fontFamily: 'Roboto',
+        overflow: TextOverflow.fade,
+      ),
       foregroundColor: ThemeColors.grayDark,
     ),
   ),
   iconTheme: const IconThemeData(color: Colors.black),
   inputDecorationTheme: InputDecorationTheme(
     errorStyle: const TextStyle(
-        color: Colors.red, fontSize: 12, overflow: TextOverflow.fade),
+      color: Colors.red,
+      fontSize: 12,
+      overflow: TextOverflow.fade,
+    ),
     labelStyle: const TextStyle(
-        color: ThemeColors.grayLight2, fontSize: 16, overflow: TextOverflow.fade),
+      color: ThemeColors.grayLight2,
+      fontSize: 16,
+      overflow: TextOverflow.fade,
+    ),
     floatingLabelStyle: const TextStyle(
       color: Colors.black, // Focused label color
       fontSize: 16,
@@ -114,10 +133,7 @@ ThemeData defaultTheme = ThemeData(
     ),
     enabledBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: BorderSide(
-        color: ThemeColors.grayLight2,
-        width: 2.0,
-      ),
+      borderSide: BorderSide(color: ThemeColors.grayLight2, width: 2.0),
     ),
     focusedBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
@@ -128,17 +144,11 @@ ThemeData defaultTheme = ThemeData(
     ),
     focusedErrorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(
-        color: Colors.red,
-        width: 2.0,
-      ),
+      borderSide: const BorderSide(color: Colors.red, width: 2.0),
     ),
     errorBorder: OutlineInputBorder(
       borderRadius: BorderRadius.circular(12),
-      borderSide: const BorderSide(
-        color: Colors.red,
-        width: 2.0,
-      ),
+      borderSide: const BorderSide(color: Colors.red, width: 2.0),
     ),
   ),
   dividerTheme: const DividerThemeData(color: ThemeColors.grayLight3),

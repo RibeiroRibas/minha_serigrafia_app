@@ -1,5 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
-import 'package:firebase_auth/firebase_auth.dart' show UserCredential;
+import 'package:firebase_auth/firebase_auth.dart' show UserCredential, FirebaseAuth;
 import 'package:minhaserigrafia/modules/signin/exceptions/error_messages.dart';
 import 'package:minhaserigrafia/modules/signin/exceptions/firebase_auth_exception.dart';
 
@@ -8,6 +8,8 @@ class FirebaseAuthRepository {
     : _firebaseAuth = firebase_auth.FirebaseAuth.instance;
 
   final firebase_auth.FirebaseAuth _firebaseAuth;
+
+  FirebaseAuth get firebaseAuth => _firebaseAuth;
 
   Future<UserCredential> signInWithCredential({required String idToken}) async {
     try {
@@ -32,7 +34,7 @@ class FirebaseAuthRepository {
         password: password,
       );
     } on firebase_auth.FirebaseAuthException catch (e) {
-      String message = e.code == 'wrong-password' || e.code == 'user-not-found'
+      String message = e.code == 'invalid-credential' || e.code == 'user-not-found'
           ? invalidFirebaseUserCredentials
           : 'Falha ao tentar logar com o firebase signInWithEmailAndPassword - ${e.code} - ${e.message}';
       throw CustomFirebaseAuthException(message);

@@ -3,11 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:formz/formz.dart';
-import 'package:minhaserigrafia/modules/signin/bloc/login_with_email_and_password_bloc.dart';
-import 'package:minhaserigrafia/modules/signin/bloc/login_with_google_bloc.dart';
+import 'package:minhaserigrafia/modules/signin/cubit/login_with_email_and_password_cubit.dart';
+import 'package:minhaserigrafia/modules/signin/cubit/login_with_google_cubit.dart';
 import 'package:minhaserigrafia/modules/signin/sign_in_route_navigator.dart';
 import 'package:minhaserigrafia/modules/signin/ui/login_form_component.dart';
+import 'package:minhaserigrafia/shared/messages.dart';
 import 'package:minhaserigrafia/shared/routes/route_named.dart';
+import 'package:minhaserigrafia/shared/ui/custom_snack_bar.dart';
 import 'package:minhaserigrafia/shared/ui/header_component.dart';
 import 'package:minhaserigrafia/shared/ui/primary_container_component.dart';
 
@@ -34,47 +36,30 @@ class _LoginPageState extends State<LoginPage> {
               HeaderComponent(),
               PrimaryContainerComponent(
                 height: 500,
-                body: Column(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: [
-                    BlocProvider(
-                      create: (BuildContext context) =>
-                          Modular.get<LoginWithEmailAndPasswordBloc>(),
-                      child: LoginFormComponent(),
-                    ),
-                    _SignUp(),
-                    Text('Ou'),
-                    BlocProvider(
-                      create: (BuildContext context) =>
-                          Modular.get<LoginWithGoogleBloc>(),
-                      child:
-                          BlocListener<
-                            LoginWithGoogleBloc,
-                            LoginWithGoogleState
-                          >(
-                            listener: (context, state) {
-                              if (state.status.isSuccess) {
-                                if (state.isFirstAccess) {
-                                  navigator.goTo(
-                                    '$signUpRoute$completeSignUpRoute',
-                                  );
-                                } else {
-                                  navigator.goTo(homeRoute);
-                                }
-                              } else if (state.status.isFailure) {
-                                ScaffoldMessenger.of(context)
-                                  ..hideCurrentSnackBar()
-                                  ..showSnackBar(
-                                    const SnackBar(
-                                      content: Text('Authentication Failure'),
-                                    ),
-                                  );
-                              }
-                            },
-                            child: _LoginWithGoogle(),
-                          ),
-                    ),
-                  ],
+                body: BlocProvider(
+                  create: (BuildContext context) =>
+                      Modular.get<LoginWithEmailAndPasswordCubit>(),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      LoginFormComponent(),
+                      _SignUp(),
+                      Text('Ou'),
+                      BlocProvider(
+                        create: (BuildContext context) =>
+                            Modular.get<LoginWithGoogleCubit>(),
+                        child:
+                            BlocListener<
+                              LoginWithGoogleCubit,
+                              LoginWithGoogleState
+                            >(
+                              listener: (context, state) =>
+                                  _handleLoginWithGoogleState(state, context),
+                              child: _LoginWithGoogle(),
+                            ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ],
@@ -83,13 +68,31 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+  void _handleLoginWithGoogleState(
+    LoginWithGoogleState state,
+    BuildContext context,
+  ) {
+    if (state.status.isSuccess) {
+      if (state.isFirstAccess) {
+        navigator.goTo('$signUpStepOneRoute$completeSignUpRoute');
+      } else {
+        navigator.goTo(homeRoute);
+      }
+    } else if (state.status.isFailure) {
+      String message = '$genericErrorMessage ${state.errorCode}';
+      showCustomSnackBar(context, message);
+    }
+  }
 }
 
 class _SignUp extends StatelessWidget {
-  const _SignUp({super.key});
+  const _SignUp();
 
   @override
   Widget build(BuildContext context) {
+    final navigator = Modular.get<SignInRouteNavigator>();
+
     return RichText(
       textAlign: TextAlign.center,
       text: TextSpan(
@@ -105,7 +108,8 @@ class _SignUp extends StatelessWidget {
               color: Colors.blue,
               decoration: TextDecoration.underline,
             ),
-            recognizer: TapGestureRecognizer()..onTap = () async {},
+            recognizer: TapGestureRecognizer()
+              ..onTap = () => navigator.goTo(signUpStepOneRoute),
           ),
         ],
       ),
@@ -114,12 +118,12 @@ class _SignUp extends StatelessWidget {
 }
 
 class _LoginWithGoogle extends StatelessWidget {
-  const _LoginWithGoogle({super.key});
+  const _LoginWithGoogle();
 
   @override
   Widget build(BuildContext context) {
     final isInProgress = context.select(
-      (LoginWithGoogleBloc bloc) => bloc.state.status.isInProgress,
+      (LoginWithGoogleCubit bloc) => bloc.state.status.isInProgress,
     );
 
     if (isInProgress) return const CircularProgressIndicator();
@@ -131,9 +135,9 @@ class _LoginWithGoogle extends StatelessWidget {
         width: 24,
       ),
       label: Text('Continue com Google', style: TextStyle(fontSize: 16)),
-      onPressed: () => BlocProvider.of<LoginWithGoogleBloc>(
+      onPressed: () => BlocProvider.of<LoginWithGoogleCubit>(
         context,
-      ).add(const LoginWithGoogleSubmitted()),
+      ).onSignInWithGoogleSubmitted(),
     );
   }
 }

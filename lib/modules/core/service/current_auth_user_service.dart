@@ -26,11 +26,13 @@ class CurrentAuthUserService {
   String? _userType;
   String? _firebaseUserId;
   bool? _isFirstAccess;
-  String? firebaseIdToken;
+  String? _firebaseIdToken;
 
   bool get isFirstAccess => _isFirstAccess ?? false;
 
-  void setFirebaseIdToken(String token) => firebaseIdToken = token;
+  String get firebaseIdToken => 'Bearer $_firebaseIdToken';
+
+  void setFirebaseIdToken(String token) => _firebaseIdToken = token;
 
   Future<void> init() async {
     String? userIdStr = await _storage.read(key: AuthUserStorageKeys.userIdKey);
