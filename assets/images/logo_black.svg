@@ -1,0 +1,20 @@
+<svg xmlns="http://www.w3.org/2000/svg" xml:space="preserve" width="60mm" height="62mm" version="1.1" style="shape-rendering:geometricPrecision; text-rendering:geometricPrecision; image-rendering:optimizeQuality; fill-rule:evenodd; clip-rule:evenodd"
+viewBox="0 0 6000 6200">
+ <defs>
+  <style type="text/css">
+   <![CDATA[
+    .fil0 {fill:#373435}
+   ]]>
+  </style>
+ </defs>
+ <g id="Camada_x0020_1">
+  <metadata id="CorelCorpID_0Corel-Layer"/>
+  <g id="_1879637751792">
+   <path class="fil0" d="M5548.95 2574.94l0 2759.9c0,483.85 -395.86,879.71 -879.71,879.71l-3356.68 0c-483.86,0 -879.71,-395.86 -879.71,-879.71l0 -2759.9 538.28 0 0 2776.19c0,171.15 140.01,311.16 311.15,311.16l3417.21 0c171.15,0 311.16,-140.01 311.16,-311.16l0 -2776.19 538.3 0z"/>
+   <rect class="fil0" x="1687.96" y="2965.12" width="2634.17" height="229.98" rx="237.28" ry="114.99"/>
+   <rect class="fil0" x="1687.96" y="3824.64" width="2634.17" height="229.98" rx="237.28" ry="114.99"/>
+   <path class="fil0" d="M5708.4 1740.25l0 326.69c0,94.63 -77.41,172.04 -172.05,172.04l-5171.38 0c-94.64,0 -172.05,-77.41 -172.05,-172.04l0 -326.69 5515.48 0z"/>
+   <path class="fil0" d="M397.52 -13.49l5190.71 0c222.55,0 404.64,182.1 404.64,404.64l0 1005.49 -6000 0 0 -1005.49c0,-222.54 182.09,-404.64 404.65,-404.64z"/>
+  </g>
+ </g>
+</svg>

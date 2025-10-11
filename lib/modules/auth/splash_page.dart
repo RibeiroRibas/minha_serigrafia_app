@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:minhaserigrafia/modules/auth/auth_route_navigator.dart';
 import 'package:minhaserigrafia/modules/auth/cubit/authentication_cubit.dart';
 import 'package:minhaserigrafia/shared/routes/route_named.dart';
@@ -23,7 +24,11 @@ class SplashPage extends StatelessWidget {
           },
           child: Padding(
             padding: const EdgeInsets.all(64.0),
-            child: Center(child: Image.asset('assets/images/logo.png')),
+            child: Center(child: SvgPicture.asset(
+              'assets/images/logo_white.svg',
+              width: 100,
+              semanticsLabel: 'Minha imagem SVG',
+            ),),
           ),
         ),
       ),
