@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:minhaserigrafia/shared/theme/theme_colors.dart';
 
 ThemeData defaultTheme = ThemeData(
+  brightness: Brightness.dark,
   useMaterial3: true,
   appBarTheme: const AppBarTheme(
     backgroundColor: ThemeColors.blueDark,
@@ -22,10 +23,10 @@ ThemeData defaultTheme = ThemeData(
   ),
   scaffoldBackgroundColor: ThemeColors.grayLight,
   colorScheme: const ColorScheme(
-    brightness: Brightness.light,
+    brightness: Brightness.dark,
     primary: Colors.black,
-    onPrimary: Colors.black,
-    secondary: ThemeColors.grayDark,
+    onPrimary: Colors.white,
+    secondary: ThemeColors.grayLight,
     onSecondary: Colors.white,
     tertiary: ThemeColors.grayLight,
     onTertiary: ThemeColors.grayLight2,
@@ -37,10 +38,16 @@ ThemeData defaultTheme = ThemeData(
     onSurfaceVariant: ThemeColors.grayLight3,
   ),
   textTheme: const TextTheme(
+    titleLarge: TextStyle(
+      fontSize: 32,
+      color: Colors.black,
+      fontWeight: FontWeight.w500,
+      overflow: TextOverflow.fade,
+    ),
     titleMedium: TextStyle(
       fontSize: 22,
       color: Colors.black,
-      fontWeight: FontWeight.bold,
+      fontWeight: FontWeight.w500,
       overflow: TextOverflow.fade,
     ),
     bodyLarge: TextStyle(

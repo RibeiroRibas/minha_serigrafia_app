@@ -44,6 +44,7 @@ dependencies:
   flutter_secure_storage: ^9.2.4
   dio: ^5.9.0
   formz: ^0.8.0
+  flutter_svg: ^2.2.1
 
 dev_dependencies:
   flutter_test:
