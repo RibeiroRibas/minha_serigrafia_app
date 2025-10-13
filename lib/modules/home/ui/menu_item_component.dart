@@ -19,8 +19,8 @@ class MenuItemComponent extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 150,
-      height: 150,
+      width: 140,
+      height: 140,
       decoration: BoxDecoration(
         color: Colors.white,
         border: Border.all(color: ThemeColors.grayLight2, width: 2.0),
@@ -35,7 +35,7 @@ class MenuItemComponent extends StatelessWidget {
             if (icon != null) Icon(icon!.icon, size: 60, color: icon!.color),
             if (svgImagePath != null)
               SvgPicture.asset(svgImagePath!, width: 60, height: 60),
-            Text(title, style: Theme.of(context).textTheme.titleMedium),
+            Text(title, style: Theme.of(context).textTheme.titleSmall),
           ],
         ),
       ),

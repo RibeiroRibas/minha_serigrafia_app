@@ -39,12 +39,18 @@ ThemeData defaultTheme = ThemeData(
   ),
   textTheme: const TextTheme(
     titleLarge: TextStyle(
-      fontSize: 32,
+      fontSize: 30,
       color: Colors.black,
       fontWeight: FontWeight.w500,
       overflow: TextOverflow.fade,
     ),
     titleMedium: TextStyle(
+      fontSize: 26,
+      color: Colors.black,
+      fontWeight: FontWeight.w500,
+      overflow: TextOverflow.fade,
+    ),
+    titleSmall: TextStyle(
       fontSize: 22,
       color: Colors.black,
       fontWeight: FontWeight.w500,
@@ -87,7 +93,7 @@ ThemeData defaultTheme = ThemeData(
     style: OutlinedButton.styleFrom(
       padding: EdgeInsets.symmetric(vertical: 14, horizontal: 28),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      side: BorderSide(color: ThemeColors.grayLight3, width: 2),
+      side: BorderSide(color: ThemeColors.grayLight2, width: 2),
       minimumSize: const Size(double.infinity, 60),
       backgroundColor: Colors.white,
       foregroundColor: Colors.black,
