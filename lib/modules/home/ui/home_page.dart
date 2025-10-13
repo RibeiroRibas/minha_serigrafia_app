@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:minhaserigrafia/infra/storage/secure_storage_repository.dart';
 import 'package:minhaserigrafia/modules/home/home_route_navigator.dart';
 import 'package:minhaserigrafia/modules/home/ui/menu_item_component.dart';
-import 'package:minhaserigrafia/modules/home/ui/statistics_component.dart';
-import 'package:minhaserigrafia/modules/signin/repository/firebase_auth_repository.dart';
 import 'package:minhaserigrafia/shared/routes/route_named.dart';
 import 'package:minhaserigrafia/shared/ui/header_component.dart';
 
@@ -62,18 +59,30 @@ class _HomePageState extends State<HomePage> {
                                 title: 'Clientes',
                                 icon: const Icon(Icons.person),
                               ),
-                              MenuItemComponent(
-                                title: 'Empresa',
-                                icon: const Icon(Icons.business),
+                              GestureDetector(
+                                child: MenuItemComponent(
+                                  title: 'Empresa',
+                                  icon: const Icon(Icons.business),
+                                ),
+                                onTap: () {
+                                  Modular.get<HomeRouteNavigator>().pushNamed(
+                                    companyRoute,
+                                  );
+                                },
                               ),
-                              MenuItemComponent(
-                                title: 'Perfil',
-                                icon: const Icon(Icons.account_circle),
+                              GestureDetector(
+                                child: MenuItemComponent(
+                                  title: 'Perfil',
+                                  icon: const Icon(Icons.account_circle),
+                                ),
+                                onTap: () {
+                                  Modular.get<HomeRouteNavigator>().pushNamed(
+                                    profileRoute,
+                                  );
+                                },
                               ),
                             ],
                           ),
-                          const SizedBox(height: 32.0),
-                          StatisticsComponent(),
                         ],
                       ),
                     ),
@@ -82,14 +91,6 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-        ),
-        floatingActionButton: FloatingActionButton(
-          onPressed: () async {
-            await Modular.get<FirebaseAuthRepository>().signOut();
-            await Modular.get<SecureStorageRepository>().deleteAll();
-            Modular.get<HomeRouteNavigator>().goTo(signInRoute);
-          },
-          child: const Icon(Icons.logout),
         ),
       ),
     );

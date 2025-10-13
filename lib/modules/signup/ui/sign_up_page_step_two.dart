@@ -38,7 +38,7 @@ class _SignUpStepTwoPageState extends State<SignUpStepTwoPage> {
                     Row(
                       children: [
                         SizedBox(
-                          width: 184,
+                          width: 200,
                           child: BackButtonHeaderComponent(
                             title: 'Cadastre-se',
                             onBackPressed: () => _navigator.pop(),

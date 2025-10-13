@@ -39,7 +39,7 @@ class _SignUpStepOnePageState extends State<SignUpStepOnePage> {
                     Row(
                       children: [
                         SizedBox(
-                          width: 184,
+                          width: 200,
                           child: BackButtonHeaderComponent(
                             title: 'Cadastre-se',
                             onBackPressed: () => _navigator.goTo(signInRoute),

@@ -9,13 +9,12 @@ class StatisticsComponent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
 
       children: [
-        Text('Estatísticas', style: Theme.of(context).textTheme.titleLarge),
-        Divider(),
+        Text('Estatísticas:', style: Theme.of(context).textTheme.titleMedium),
         const SizedBox(height: 16.0),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Produção', style: Theme.of(context).textTheme.titleMedium),
+            Text('Produção', style: Theme.of(context).textTheme.titleSmall),
             const SizedBox(height: 8.0),
             Row(
               children: [
@@ -47,7 +46,7 @@ class StatisticsComponent extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Estampas', style: Theme.of(context).textTheme.titleMedium),
+            Text('Estampas', style: Theme.of(context).textTheme.titleSmall),
             const SizedBox(height: 8.0),
             Row(
               children: [
@@ -70,7 +69,7 @@ class StatisticsComponent extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Matrizes', style: Theme.of(context).textTheme.titleMedium),
+            Text('Matrizes', style: Theme.of(context).textTheme.titleSmall),
             const SizedBox(height: 8.0),
             Row(
               children: [
@@ -93,7 +92,7 @@ class StatisticsComponent extends StatelessWidget {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text('Clientes', style: Theme.of(context).textTheme.titleMedium),
+            Text('Clientes', style: Theme.of(context).textTheme.titleSmall),
             const SizedBox(height: 8.0),
             Row(
               children: [
