@@ -21,8 +21,8 @@ class HeaderComponent extends StatelessWidget {
             height: 58,
             fit: BoxFit.fill,
             colorFilter: ColorFilter.mode(
-              color,  // Força que a cor final seja BRANCA
-              BlendMode.srcIn, // Modo de mesclagem para aplicar a cor forçada
+              color,
+              BlendMode.srcIn,
             ),
           ),
           Column(

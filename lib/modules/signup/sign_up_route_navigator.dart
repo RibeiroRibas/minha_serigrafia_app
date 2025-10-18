@@ -8,15 +8,15 @@ class SignUpRouteNavigator extends RouteNavigator {
   }
 
   @override
-  Future<void> pushNamed(
+  Future<Object?> pushNamed(
     String routeName, {
     Map<String, dynamic>? arguments,
   }) async {
-    await Modular.to.pushNamed(routeName, arguments: arguments);
+    return await Modular.to.pushNamed(routeName, arguments: arguments);
   }
 
   @override
-  Future<void> pop() async {
-    Modular.to.pop();
+  void pop<T extends Object?>([T? result]) {
+    Modular.to.pop(result);
   }
 }
