@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:minhaserigrafia/modules/company/company_route_navigator.dart';
+import 'package:minhaserigrafia/modules/company/cubit/user_access_cubit.dart';
 import 'package:minhaserigrafia/modules/company/ui/create_access_component.dart';
 import 'package:minhaserigrafia/shared/ui/back_button_header_component.dart';
 
@@ -31,8 +33,11 @@ class _CreateAccessPageState extends State<CreateAccessPage> {
                   onBackPressed: () => _navigator.pop(),
                 ),
                 SizedBox(height: 36),
-
-                CreateAccessComponent(),
+                BlocProvider(
+                  create: (BuildContext context) =>
+                      Modular.get<UserAccessCubit>(),
+                  child: CreateAccessComponent(),
+                ),
               ],
             ),
           ),
