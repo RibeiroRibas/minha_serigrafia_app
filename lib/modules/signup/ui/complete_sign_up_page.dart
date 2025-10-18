@@ -5,7 +5,7 @@ import 'package:flutter_multi_formatter/formatters/masked_input_formatter.dart';
 import 'package:formz/formz.dart';
 import 'package:minhaserigrafia/modules/signup/cubit/sign_up_bloc.dart';
 import 'package:minhaserigrafia/modules/signup/sign_up_route_navigator.dart';
-import 'package:minhaserigrafia/shared/messages.dart';
+import 'package:minhaserigrafia/shared/error_messages.dart' as error_message;
 import 'package:minhaserigrafia/shared/routes/route_named.dart';
 import 'package:minhaserigrafia/shared/ui/back_button_header_component.dart';
 import 'package:minhaserigrafia/shared/ui/custom_snack_bar.dart';
@@ -68,7 +68,7 @@ class _CompleteSignInPageState extends State<CompleteSignInPage> {
 
   void _handleCompleteSignUpState(SignUpState state, BuildContext context) {
     if (state.status.isFailure) {
-      String message = '$genericErrorMessage ${state.errorCode}';
+      final message = error_message.fromErrorCode(state.errorCode);
       showCustomSnackBar(context, message);
     } else if (state.status.isSuccess) {
       _navigator.goTo(homeRoute);

@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:formz/formz.dart';
-import 'package:minhaserigrafia/modules/signin/cubit/login_with_email_and_password_cubit.dart';
 import 'package:minhaserigrafia/modules/signin/cubit/login_with_google_cubit.dart';
 import 'package:minhaserigrafia/modules/signin/sign_in_route_navigator.dart';
 import 'package:minhaserigrafia/modules/signin/ui/login_form_component.dart';
-import 'package:minhaserigrafia/shared/messages.dart';
+import 'package:minhaserigrafia/shared/error_messages.dart' as error_message;
 import 'package:minhaserigrafia/shared/routes/route_named.dart';
 import 'package:minhaserigrafia/shared/ui/custom_snack_bar.dart';
 import 'package:minhaserigrafia/shared/ui/header_component.dart';
@@ -36,30 +35,18 @@ class _LoginPageState extends State<LoginPage> {
               HeaderComponent(),
               PrimaryContainerComponent(
                 height: 500,
-                body: BlocProvider(
-                  create: (BuildContext context) =>
-                      Modular.get<LoginWithEmailAndPasswordCubit>(),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      LoginFormComponent(),
-                      _SignUp(),
-                      Text('Ou'),
-                      BlocProvider(
-                        create: (BuildContext context) =>
-                            Modular.get<LoginWithGoogleCubit>(),
-                        child:
-                            BlocListener<
-                              LoginWithGoogleCubit,
-                              LoginWithGoogleState
-                            >(
-                              listener: (context, state) =>
-                                  _handleLoginWithGoogleState(state, context),
-                              child: _LoginWithGoogle(),
-                            ),
-                      ),
-                    ],
-                  ),
+                body: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: [
+                    LoginFormComponent(),
+                    _SignUp(),
+                    Text('Ou'),
+                    BlocListener<LoginWithGoogleCubit, LoginWithGoogleState>(
+                      listener: (context, state) =>
+                          _handleLoginWithGoogleState(state, context),
+                      child: _LoginWithGoogle(),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -80,7 +67,7 @@ class _LoginPageState extends State<LoginPage> {
         navigator.goTo(homeRoute);
       }
     } else if (state.status.isFailure) {
-      String message = '$genericErrorMessage ${state.errorCode}';
+      final message = error_message.fromErrorCode(state.errorCode);
       showCustomSnackBar(context, message);
     }
   }

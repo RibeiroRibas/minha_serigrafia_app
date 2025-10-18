@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
-import 'package:minhaserigrafia/modules/company/company_route_navigator.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:formz/formz.dart';
+import 'package:minhaserigrafia/modules/company/cubit/create_access_cubit.dart';
 
 class CreateAccessComponent extends StatelessWidget {
   const CreateAccessComponent({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final navigator = Modular.get<CompanyRouteNavigator>();
-
     return Column(
       spacing: 8.0,
       children: [
@@ -29,16 +28,19 @@ class CreateAccessComponent extends StatelessWidget {
 class _UserNameInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // final displayError = context.select(
-    //   (SignUpCubit bloc) => bloc.state.userName.displayError,
-    // );
+    final displayError = context.select(
+      (CreateAccessCubit bloc) => bloc.state.userName.displayError,
+    );
 
     return TextField(
       onChanged: (userName) {
-        // BlocProvider.of<SignUpCubit>(context).onUserNameChanged(userName);
+        BlocProvider.of<CreateAccessCubit>(context).onUserNameChanged(userName);
       },
       style: const TextStyle(color: Colors.black),
-      decoration: InputDecoration(labelText: 'Nome', errorText: null),
+      decoration: InputDecoration(
+        labelText: 'Nome',
+        errorText: displayError != null ? 'Campo obrigatório.' : null,
+      ),
     );
   }
 }
@@ -46,16 +48,19 @@ class _UserNameInput extends StatelessWidget {
 class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // final displayError = context.select(
-    //   (SignUpCubit bloc) => bloc.state.email.displayError,
-    // );
+    final displayError = context.select(
+      (CreateAccessCubit bloc) => bloc.state.email.displayError,
+    );
 
     return TextField(
       onChanged: (email) {
-        // BlocProvider.of<SignUpCubit>(context).onEmailChanged(email);
+        BlocProvider.of<CreateAccessCubit>(context).onEmailChanged(email);
       },
       style: const TextStyle(color: Colors.black),
-      decoration: InputDecoration(labelText: 'Email', errorText: null),
+      decoration: InputDecoration(
+        labelText: 'Email',
+        errorText: displayError != null ? 'Email inválido.' : null,
+      ),
     );
   }
 }
@@ -72,23 +77,27 @@ class _PasswordInputState extends State<_PasswordInput> {
 
   @override
   Widget build(BuildContext context) {
-    // final displayError = context.select(
-    //   (SignUpCubit bloc) => bloc.state.password.displayError,
-    // );
-    //
-    // final isPasswordEquals = context.select(
-    //   (SignUpCubit bloc) => bloc.state.isPasswordNotEqual,
-    // );
+    final displayError = context.select(
+      (CreateAccessCubit bloc) => bloc.state.password.displayError,
+    );
+
+    final isPasswordEquals = context.select(
+      (CreateAccessCubit bloc) => bloc.state.isPasswordNotEqual,
+    );
 
     return TextField(
       onChanged: (password) {
-        // BlocProvider.of<SignUpCubit>(context).onPasswordChanged(password);
+        BlocProvider.of<CreateAccessCubit>(context).onPasswordChanged(password);
       },
       obscureText: _obscurePassword,
       style: const TextStyle(color: Colors.black),
       decoration: InputDecoration(
         labelText: 'Senha',
-        errorText: null,
+        errorText: displayError != null
+            ? 'Mínimo 6 caracteres'
+            : isPasswordEquals
+            ? 'As senhas não conferem'
+            : null,
         suffixIcon: IconButton(
           icon: Icon(
             _obscurePassword ? Icons.visibility_off : Icons.visibility,
@@ -116,25 +125,29 @@ class _ConfirmPasswordInputState extends State<_ConfirmPasswordInput> {
 
   @override
   Widget build(BuildContext context) {
-    // final displayError = context.select(
-    //   (SignUpCubit bloc) => bloc.state.confirmPassword.displayError,
-    // );
-    //
-    // final isPasswordEquals = context.select(
-    //   (SignUpCubit bloc) => bloc.state.isPasswordNotEqual,
-    // );
+    final displayError = context.select(
+      (CreateAccessCubit bloc) => bloc.state.confirmPassword.displayError,
+    );
+
+    final isPasswordEquals = context.select(
+      (CreateAccessCubit bloc) => bloc.state.isPasswordNotEqual,
+    );
 
     return TextField(
       onChanged: (password) {
-        // BlocProvider.of<SignUpCubit>(
-        //   context,
-        // ).onConfirmPasswordChanged(password);
+        BlocProvider.of<CreateAccessCubit>(
+          context,
+        ).onConfirmPasswordChanged(password);
       },
       obscureText: _obscurePassword,
       style: const TextStyle(color: Colors.black),
       decoration: InputDecoration(
         labelText: 'Confirmar Senha',
-        errorText: null,
+        errorText: displayError != null
+            ? 'Mínimo 6 caracteres'
+            : isPasswordEquals
+            ? 'As senhas não conferem'
+            : null,
         suffixIcon: IconButton(
           icon: Icon(
             _obscurePassword ? Icons.visibility_off : Icons.visibility,
@@ -151,18 +164,27 @@ class _ConfirmPasswordInputState extends State<_ConfirmPasswordInput> {
 }
 
 class _SaveButton extends StatelessWidget {
+  const _SaveButton();
+
   @override
   Widget build(BuildContext context) {
-    // final isInProgress = context.select(
-    //   (SignUpCubit bloc) => bloc.state.status.isInProgress,
-    // );
-    //
-    // if (isInProgress) return const CircularProgressIndicator();
-    //
-    // final isValid = context.select(
-    //   (SignUpCubit bloc) => bloc.state.isStepTwoValid,
-    // );
+    final isInProgress = context.select(
+      (CreateAccessCubit bloc) => bloc.state.status.isInProgress,
+    );
 
-    return ElevatedButton(onPressed: () {}, child: const Text('Concluir'));
+    if (isInProgress) return const CircularProgressIndicator();
+
+    final isValid = context.select(
+      (CreateAccessCubit bloc) => bloc.state.isValid,
+    );
+
+    return ElevatedButton(
+      onPressed: isValid
+          ? () => BlocProvider.of<CreateAccessCubit>(
+              context,
+            ).onCreateAccessSubmitted()
+          : null,
+      child: const Text('Criar Acesso'),
+    );
   }
 }

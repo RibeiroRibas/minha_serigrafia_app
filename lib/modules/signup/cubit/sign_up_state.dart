@@ -12,7 +12,6 @@ final class SignUpState extends Equatable {
     this.password = const Password.pure(),
     this.confirmPassword = const Password.pure(),
     this.errorCode = 0,
-    this.isEmailInUse = false,
   });
 
   final FormzSubmissionStatus status;
@@ -23,7 +22,6 @@ final class SignUpState extends Equatable {
   final Password password;
   final Password confirmPassword;
   final int errorCode;
-  final bool isEmailInUse;
 
   SignUpState withUserName(String userName) {
     return SignUpState._(
@@ -116,7 +114,6 @@ final class SignUpState extends Equatable {
       confirmPassword: confirmPassword,
       status: FormzSubmissionStatus.failure,
       errorCode: errorCode ?? this.errorCode,
-      isEmailInUse: isEmailInUse ?? this.isEmailInUse,
     );
   }
 
@@ -149,6 +146,5 @@ final class SignUpState extends Equatable {
     cellPhone,
     password,
     confirmPassword,
-    isEmailInUse,
   ];
 }

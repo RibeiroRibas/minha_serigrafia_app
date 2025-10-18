@@ -4,7 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:formz/formz.dart';
 import 'package:minhaserigrafia/modules/signup/cubit/sign_up_bloc.dart';
 import 'package:minhaserigrafia/modules/signup/sign_up_route_navigator.dart';
-import 'package:minhaserigrafia/shared/messages.dart';
+import 'package:minhaserigrafia/shared/error_messages.dart' as error_message;
 import 'package:minhaserigrafia/shared/routes/route_named.dart';
 import 'package:minhaserigrafia/shared/ui/custom_snack_bar.dart';
 
@@ -39,12 +39,8 @@ class SignUpStepTwoFormComponent extends StatelessWidget {
     SignUpRouteNavigator navigator,
   ) {
     if (state.status.isFailure) {
-      if (state.isEmailInUse) {
-        showCustomSnackBar(context, 'Email já cadastrado.');
-      } else {
-        final message = '$genericErrorMessage ${state.errorCode}';
-        showCustomSnackBar(context, message);
-      }
+      final message = error_message.fromErrorCode(state.errorCode);
+      showCustomSnackBar(context, message);
     } else if (state.status.isSuccess) {
       navigator.goTo(homeRoute);
     }

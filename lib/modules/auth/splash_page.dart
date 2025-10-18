@@ -6,36 +6,47 @@ import 'package:minhaserigrafia/modules/auth/auth_route_navigator.dart';
 import 'package:minhaserigrafia/modules/auth/cubit/authentication_cubit.dart';
 import 'package:minhaserigrafia/shared/routes/route_named.dart';
 
-class SplashPage extends StatelessWidget {
+class SplashPage extends StatefulWidget {
   const SplashPage({super.key});
+
+  @override
+  State<SplashPage> createState() => _SplashPageState();
+}
+
+class _SplashPageState extends State<SplashPage> {
+  @override
+  void initState() {
+    super.initState();
+    BlocProvider.of<AuthenticationCubit>(context).onSubscriptionRequested();
+  }
 
   @override
   Widget build(BuildContext context) {
     final navigator = Modular.get<AuthRouteNavigator>();
 
-    return Scaffold(
-      body: BlocProvider(
-        lazy: false,
-        create: (context) =>
-            Modular.get<AuthenticationCubit>()..onSubscriptionRequested(),
-        child: BlocListener<AuthenticationCubit, AuthenticationState>(
-          listener: (context, state) {
-            _handleAuthRedirect(state, navigator);
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(64.0),
-            child: Center(child: SvgPicture.asset(
+    return BlocListener<AuthenticationCubit, AuthenticationState>(
+      listener: (context, state) {
+        _handleAuthRedirect(state, navigator);
+      },
+      child: Scaffold(
+        body: Padding(
+          padding: const EdgeInsets.all(64.0),
+          child: Center(
+            child: SvgPicture.asset(
               'assets/images/logo_white.svg',
               width: 100,
               semanticsLabel: 'Minha imagem SVG',
-            ),),
+            ),
           ),
         ),
       ),
     );
   }
 
-  void _handleAuthRedirect(AuthenticationState state, AuthRouteNavigator navigator) {
+  void _handleAuthRedirect(
+    AuthenticationState state,
+    AuthRouteNavigator navigator,
+  ) {
     switch (state.status) {
       case AuthenticationStatus.authenticated:
         if (state.isFirstAccess) {
@@ -49,4 +60,6 @@ class SplashPage extends StatelessWidget {
         navigator.goTo(signInRoute);
     }
   }
+
+
 }

@@ -18,7 +18,7 @@ class BackButtonHeaderComponent extends StatelessWidget {
           onPressed: () => onBackPressed.call(),
           icon: Icon(Icons.arrow_back, size: 28,),
         ),
-        Text(title, style: Theme.of(context).textTheme.titleLarge),
+        Text(title, style: Theme.of(context).textTheme.titleMedium),
       ],
     );
   }

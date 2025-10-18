@@ -5,7 +5,7 @@ import 'package:formz/formz.dart';
 import 'package:minhaserigrafia/modules/signin/cubit/login_with_email_and_password_cubit.dart';
 import 'package:minhaserigrafia/modules/signin/exceptions/error_messages.dart';
 import 'package:minhaserigrafia/modules/signin/sign_in_route_navigator.dart';
-import 'package:minhaserigrafia/shared/messages.dart';
+import 'package:minhaserigrafia/shared/error_messages.dart' as error_message;
 import 'package:minhaserigrafia/shared/routes/route_named.dart';
 import 'package:minhaserigrafia/shared/ui/custom_snack_bar.dart';
 
@@ -25,7 +25,7 @@ class LoginFormComponent extends StatelessWidget {
           if (state.errorMessage == invalidFirebaseUserCredentials) {
             showCustomSnackBar(context, invalidFirebaseUserCredentials);
           } else {
-            String message = '$genericErrorMessage ${state.errorCode}';
+            final message = error_message.fromErrorCode(state.errorCode);
             showCustomSnackBar(context, message);
           }
         } else if (state.status.isSuccess) {
