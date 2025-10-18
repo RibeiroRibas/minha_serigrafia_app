@@ -79,7 +79,7 @@ ThemeData defaultTheme = ThemeData(
       minimumSize: const Size(double.infinity, 60),
       backgroundColor: Colors.black,
       foregroundColor: Colors.white,
-      disabledBackgroundColor: ThemeColors.grayLight,
+      disabledBackgroundColor: ThemeColors.grayLight2,
       disabledForegroundColor: ThemeColors.grayLight3,
       textStyle: const TextStyle(
         fontSize: 18,

@@ -8,10 +8,10 @@ import 'package:minhaserigrafia/shared/model/email.dart';
 import 'package:minhaserigrafia/shared/model/password.dart';
 import 'package:minhaserigrafia/shared/model/required_field.dart';
 
-part 'user_access_state.dart';
+part 'create_access_state.dart';
 
-class UserAccessCubit extends Cubit<UserAccessState> {
-  UserAccessCubit(this._companyRepository) : super(const UserAccessState());
+class CreateAccessCubit extends Cubit<CreateAccessState> {
+  CreateAccessCubit(this._companyRepository) : super(const CreateAccessState());
 
   final CompanyRepository _companyRepository;
 

@@ -33,7 +33,7 @@ class CompanyRepository {
       }
       throw CompanyException(code);
     } catch (e) {
-      throw Exception('Error during sign up: ${e.toString()}');
+      throw Exception('Error during create access: ${e.toString()}');
     }
   }
 
@@ -48,7 +48,7 @@ class CompanyRepository {
       final code = int.tryParse(codeString) ?? 0;
       throw CompanyException(code);
     } catch (e) {
-      throw Exception('Error during sign up: ${e.toString()}');
+      throw Exception('Error during get company info: ${e.toString()}');
     }
   }
 
@@ -63,7 +63,35 @@ class CompanyRepository {
       final code = int.tryParse(codeString) ?? 0;
       throw CompanyException(code);
     } catch (e) {
-      throw Exception('Error during sign up: ${e.toString()}');
+      throw Exception('Error during get statistics: ${e.toString()}');
+    }
+  }
+
+  Future<void> deleteAccess({required int userId}) async {
+    final url = '${Settings.apiUrl}/$urlCompany/access/$userId';
+    final headers = {'Authorization': _currentAuthUserService.firebaseIdToken};
+    try {
+      await _httpClient.delete(url, headers: headers);
+    } on DioException catch (e) {
+      final codeString = e.response?.data?['code']?.toString() ?? '0';
+      final code = int.tryParse(codeString) ?? 0;
+      throw CompanyException(code);
+    } catch (e) {
+      throw Exception('Error during delete access: ${e.toString()}');
+    }
+  }
+
+  Future<void> deleteCompany() async {
+    final url = '${Settings.apiUrl}/$urlCompany';
+    final headers = {'Authorization': _currentAuthUserService.firebaseIdToken};
+    try {
+      await _httpClient.delete(url, headers: headers);
+    } on DioException catch (e) {
+      final codeString = e.response?.data?['code']?.toString() ?? '0';
+      final code = int.tryParse(codeString) ?? 0;
+      throw CompanyException(code);
+    } catch (e) {
+      throw Exception('Error during delete company: ${e.toString()}');
     }
   }
 }

@@ -59,7 +59,11 @@ class DioHttpClient implements IHttpClient {
     Map<String, dynamic>? queryParameters,
     Map<String, dynamic>? headers,
   }) async {
-    final response = await _dio.delete(url, queryParameters: queryParameters);
+    final response = await _dio.delete(
+      url,
+      queryParameters: queryParameters,
+      options: Options(headers: headers),
+    );
     return response.data;
   }
 }

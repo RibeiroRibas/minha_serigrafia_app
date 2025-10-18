@@ -1,4 +1,5 @@
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:minhaserigrafia/shared/model/user_type.dart';
 
 class AuthUserStorageKeys {
   static const String userIdKey = 'authIdKey';
@@ -31,6 +32,8 @@ class CurrentAuthUserService {
   bool get isFirstAccess => _isFirstAccess ?? false;
 
   String get firebaseIdToken => 'Bearer $_firebaseIdToken';
+
+  UserType get userType => UserType.fromString(_userType);
 
   void setFirebaseIdToken(String token) => _firebaseIdToken = token;
 

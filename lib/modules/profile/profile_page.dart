@@ -64,16 +64,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     ],
                   ),
                 ),
-                OutlinedButton(
-                  onPressed: () {},
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text('Excluir Conta'),
-                      const Icon(Icons.delete, size: 24),
-                    ],
-                  ),
-                ),
+
                 Divider(),
               ],
             ),

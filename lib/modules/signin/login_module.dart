@@ -1,3 +1,4 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:minhaserigrafia/modules/core/module/core_module.dart';
 import 'package:minhaserigrafia/modules/signin/cubit/login_with_email_and_password_cubit.dart';
@@ -11,7 +12,6 @@ import 'package:minhaserigrafia/modules/signin/ui/login_page.dart';
 import 'package:minhaserigrafia/shared/routes/route_named.dart';
 
 class LoginModule extends Module {
-
   @override
   List<Module> get imports => [CoreModule()];
 
@@ -28,6 +28,19 @@ class LoginModule extends Module {
 
   @override
   void routes(r) {
-    r.child(startRote, child: (_) => const LoginPage());
+    r.child(
+      startRote,
+      child: (_) => MultiBlocProvider(
+        providers: [
+          BlocProvider<LoginWithEmailAndPasswordCubit>.value(
+            value: Modular.get<LoginWithEmailAndPasswordCubit>(),
+          ),
+          BlocProvider<LoginWithGoogleCubit>.value(
+            value: Modular.get<LoginWithGoogleCubit>(),
+          ),
+        ],
+        child: const LoginPage(),
+      ),
+    );
   }
 }
