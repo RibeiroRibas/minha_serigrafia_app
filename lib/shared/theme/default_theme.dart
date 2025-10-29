@@ -2,11 +2,32 @@ import 'package:flutter/material.dart';
 import 'package:minhaserigrafia/shared/theme/theme_colors.dart';
 
 ThemeData defaultTheme = ThemeData(
+  dialogTheme: DialogThemeData(
+    backgroundColor: ThemeColors.grayLight,
+    surfaceTintColor: Colors.transparent,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12),
+    ),
+    elevation: 8,
+    titleTextStyle: const TextStyle(
+      fontSize: 20,
+      fontWeight: FontWeight.w600,
+      color: Colors.black,
+      overflow: TextOverflow.fade,
+    ),
+    contentTextStyle: const TextStyle(
+      fontSize: 16,
+      color: Colors.black,
+      overflow: TextOverflow.fade,
+    ),
+    actionsPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+  ),
   brightness: Brightness.dark,
   useMaterial3: true,
   appBarTheme: const AppBarTheme(
     backgroundColor: ThemeColors.blueDark,
     surfaceTintColor: Colors.transparent,
+    iconTheme: IconThemeData(color: Colors.black),
   ),
   drawerTheme: const DrawerThemeData(surfaceTintColor: Colors.white),
   snackBarTheme: const SnackBarThemeData(

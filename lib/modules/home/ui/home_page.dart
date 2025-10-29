@@ -51,9 +51,16 @@ class _HomePageState extends State<HomePage> {
                                 title: 'Estampas',
                                 svgImagePath: 'assets/images/tshirt.svg',
                               ),
-                              MenuItemComponent(
-                                title: 'Matrizes',
-                                svgImagePath: 'assets/images/frame.svg',
+                              GestureDetector(
+                                child: MenuItemComponent(
+                                  title: 'Matrizes',
+                                  svgImagePath: 'assets/images/frame.svg',
+                                ),
+                                onTap: () {
+                                  Modular.get<HomeRouteNavigator>().pushNamed(
+                                    frameRoute,
+                                  );
+                                },
                               ),
                               MenuItemComponent(
                                 title: 'Clientes',

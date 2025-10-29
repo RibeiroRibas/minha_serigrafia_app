@@ -18,3 +18,7 @@ const String createAccessRoute = "/create_access";
 // profile
 const String profileRoute = "/profile";
 
+//frame
+const String frameRoute = "/frames";
+const String createOrUpdateFrameRoute = "/create_or_update_frame";
+
