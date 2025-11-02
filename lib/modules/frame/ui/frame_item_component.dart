@@ -71,7 +71,7 @@ class FrameItemComponent extends StatelessWidget {
         String customerName = p.customerName.isNotEmpty
             ? '(${p.customerName})'
             : '';
-        return '${p.printName}$customerName';
+        return '${p.printName}$customerName -';
       })
       .join(' ');
 }

@@ -30,7 +30,7 @@ class PrintModule extends Module {
       startRote,
       child: (_) => BlocProvider<PrintsCubit>.value(
         value: Modular.get<PrintsCubit>(),
-        child: const PrintsPage(),
+        child: PrintsPage(onPrintSelected: r.args.data["onPrintSelected"]),
       ),
     );
     r.child(

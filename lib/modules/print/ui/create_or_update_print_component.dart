@@ -180,11 +180,6 @@ class _FramesSelectedState extends State<_FramesSelected> {
   void initState() {
     super.initState();
     selectedFramesIdentifiers.addAll(widget.framesIdentifiers);
-    for (PrintFrameModel frame in selectedFramesIdentifiers) {
-      BlocProvider.of<CreateOrUpdatePrintCubit>(
-        context,
-      ).onFrameIdChanged(frame.id);
-    }
   }
 
   @override

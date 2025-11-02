@@ -1,4 +1,4 @@
-import 'package:minhaserigrafia/modules/frame/model/print_model.dart';
+import 'package:minhaserigrafia/modules/frame/model/frame_print_model.dart';
 
 class FrameModel {
   final int id;
@@ -8,7 +8,7 @@ class FrameModel {
   final String lines;
   final String size;
   final String createdAt;
-  final List<PrintModel> prints;
+  final List<FramePrintModel> prints;
 
   const FrameModel({
     this.lastUsageAt = '',
@@ -23,8 +23,8 @@ class FrameModel {
 
   factory FrameModel.fromJson(Map<String, dynamic> json) {
     final printsData = json['prints'] as List<dynamic>? ?? [];
-    final List<PrintModel> prints = printsData
-        .map((item) => PrintModel.fromJson(item as Map<String, dynamic>))
+    final List<FramePrintModel> prints = printsData
+        .map((item) => FramePrintModel.fromJson(item as Map<String, dynamic>))
         .toList();
 
     return FrameModel(

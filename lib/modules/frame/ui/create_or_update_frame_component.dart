@@ -3,10 +3,15 @@ import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:formz/formz.dart';
 import 'package:minhaserigrafia/modules/frame/cubit/create_or_update_frame_cubit.dart';
+import 'package:minhaserigrafia/modules/frame/frame_route_navigator.dart';
 import 'package:minhaserigrafia/modules/frame/model/frame_material_enum.dart';
 import 'package:minhaserigrafia/modules/frame/model/frame_model.dart';
+import 'package:minhaserigrafia/modules/frame/model/frame_print_model.dart';
+import 'package:minhaserigrafia/shared/routes/route_named.dart';
+import 'package:minhaserigrafia/shared/theme/theme_colors.dart';
 import 'package:minhaserigrafia/shared/ui/date_picker_field.dart';
 
 class CreateOrUpdateFrameComponent extends StatelessWidget {
@@ -24,6 +29,8 @@ class CreateOrUpdateFrameComponent extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _IdentifierInput(identifier: frameModel.identifier),
+        const SizedBox(height: 12),
+        _PrintsSelected(framesIdentifiers: frameModel.prints),
         const SizedBox(height: 12),
         _MaterialInput(material: frameModel.material),
         const SizedBox(height: 12),
@@ -114,6 +121,112 @@ class _IdentifierInputState extends State<_IdentifierInput> {
             : displayError != null
             ? 'Campo obrigatório.'
             : null,
+      ),
+    );
+  }
+}
+
+class _PrintsSelected extends StatefulWidget {
+  final List<FramePrintModel> framesIdentifiers;
+
+  const _PrintsSelected({required this.framesIdentifiers});
+
+  @override
+  State<_PrintsSelected> createState() => _PrintsSelectedState();
+}
+
+class _PrintsSelectedState extends State<_PrintsSelected> {
+  final List<FramePrintModel> selectedPrints = [];
+
+  @override
+  void initState() {
+    super.initState();
+    selectedPrints.addAll(widget.framesIdentifiers);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final navigator = Modular.get<FrameRouteNavigator>();
+
+    return Container(
+      decoration: BoxDecoration(
+        border: Border.all(color: Colors.grey),
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 8.0),
+              child: Row(
+                spacing: 8.0,
+                children: [
+                  Text(
+                    'Estampas',
+                    style: Theme.of(context).textTheme.titleSmall,
+                  ),
+                  IconButton(
+                    onPressed: () {
+                      navigator.pushNamed(
+                        printRoute,
+                        arguments: {
+                          'onPrintSelected': (int printId, String printName) {
+                            setState(() {
+                              selectedPrints.add(
+                                FramePrintModel(
+                                  id: printId,
+                                  printName: printName,
+                                ),
+                              );
+                            });
+                            BlocProvider.of<CreateOrUpdateFrameCubit>(
+                              context,
+                            ).onPrintIdChanged(printId);
+                          },
+                        },
+                      );
+                    },
+                    icon: Icon(Icons.add_circle),
+                  ),
+                ],
+              ),
+            ),
+            for (FramePrintModel print in selectedPrints) ...{
+              Padding(
+                padding: const EdgeInsets.only(bottom: 8.0),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: ThemeColors.grayLight2,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  padding: const EdgeInsets.only(left: 12.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        print.printName,
+                        style: Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      IconButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedPrints.remove(print);
+                          });
+                          BlocProvider.of<CreateOrUpdateFrameCubit>(
+                            context,
+                          ).onRemovePrintId(print.id);
+                        },
+                        icon: Icon(Icons.delete, color: Colors.red),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            },
+          ],
+        ),
       ),
     );
   }

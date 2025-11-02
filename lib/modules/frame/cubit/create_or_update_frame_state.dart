@@ -77,9 +77,23 @@ final class CreateOrUpdateFrameState extends Equatable {
     );
   }
 
-  CreateOrUpdateFrameState withPrintsIds(List<int> printsIds) {
+  CreateOrUpdateFrameState withPrintId(int printId) {
+    final updatedPrints = List<int>.from(printsIds)..add(printId);
     return CreateOrUpdateFrameState._(
-      printsIds: printsIds,
+      printsIds: updatedPrints,
+      identifier: identifier,
+      id: id,
+      material: material,
+      lines: lines,
+      size: size,
+      lastUsageAt: lastUsageAt,
+    );
+  }
+
+  CreateOrUpdateFrameState withoutPrintId(int printId) {
+    final updatedPrints = List<int>.from(printsIds)..remove(printId);
+    return CreateOrUpdateFrameState._(
+      printsIds: updatedPrints,
       identifier: identifier,
       id: id,
       material: material,

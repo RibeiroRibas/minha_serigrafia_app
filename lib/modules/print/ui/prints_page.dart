@@ -14,7 +14,9 @@ import 'package:minhaserigrafia/shared/ui/custom_dialog.dart' as custom_dialog;
 import 'print_item_component.dart';
 
 class PrintsPage extends StatefulWidget {
-  const PrintsPage({super.key});
+  final Function(int, String)? onPrintSelected;
+
+  const PrintsPage({super.key, this.onPrintSelected});
 
   @override
   State<PrintsPage> createState() => _PrintsPageState();
@@ -117,17 +119,28 @@ class _PrintsPageState extends State<PrintsPage> {
                             child: PrintItemComponent(
                               printModel: state.prints[index],
                             ),
-                            onTap: () => _navigator.pushNamed(
-                              '$printRoute$createOrUpdatePrintRoute',
-                              arguments: {
-                                "printId": state.prints[index].id,
-                                "onPrintCreatedOrUpdated": () {
-                                  BlocProvider.of<PrintsCubit>(
-                                    context,
-                                  ).onGetPrintsSubmitted();
-                                },
-                              },
-                            ),
+                            onTap: () => {
+                              if (widget.onPrintSelected != null)
+                                {
+                                  widget.onPrintSelected!(
+                                    state.prints[index].id,
+                                    state.prints[index].name,
+                                  ),
+                                  _navigator.pop(),
+                                }
+                              else
+                                _navigator.pushNamed(
+                                  '$printRoute$createOrUpdatePrintRoute',
+                                  arguments: {
+                                    "printId": state.prints[index].id,
+                                    "onPrintCreatedOrUpdated": () {
+                                      BlocProvider.of<PrintsCubit>(
+                                        context,
+                                      ).onGetPrintsSubmitted();
+                                    },
+                                  },
+                                ),
+                            },
                             onLongPress: () => custom_dialog.confirmAction(
                               context: context,
                               message:

@@ -55,7 +55,10 @@ class _HomePageState extends State<HomePage> {
                                   svgImagePath: 'assets/images/tshirt.svg',
                                 ),
                                 onTap: () {
-                                  _navigator.pushNamed(printRoute);
+                                  _navigator.pushNamed(
+                                    printRoute,
+                                    arguments: {'onPrintSelected': null},
+                                  );
                                 },
                               ),
                               GestureDetector(

@@ -25,8 +25,11 @@ class CreateOrUpdateFrameCubit extends Cubit<CreateOrUpdateFrameState> {
 
   void onSizeChanged(String size) => emit(state.withSize(size));
 
-  void onPrintsIdsChanged(List<int> printsIds) =>
-      emit(state.withPrintsIds(printsIds));
+  void onPrintIdChanged(int printId) =>
+      emit(state.withPrintId(printId));
+  
+  void onRemovePrintId(int printId) =>
+      emit(state.withoutPrintId(printId));
 
   void onLastUsageDateChanged(DateTime dateTime) =>
       emit(state.withLastUsageDate(dateTime));
