@@ -4,33 +4,31 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:formz/formz.dart';
-import 'package:minhaserigrafia/modules/frame/cubit/frames_cubit.dart';
-import 'package:minhaserigrafia/modules/frame/frame_route_navigator.dart';
+import 'package:minhaserigrafia/modules/print/cubit/prints_cubit.dart';
+import 'package:minhaserigrafia/modules/print/print_route_navigator.dart';
 import 'package:minhaserigrafia/modules/signup/ui/generic_error_component.dart';
 import 'package:minhaserigrafia/shared/model/last_usage_order_enum.dart';
 import 'package:minhaserigrafia/shared/routes/route_named.dart';
 import 'package:minhaserigrafia/shared/ui/custom_dialog.dart' as custom_dialog;
 
-import 'frame_item_component.dart';
+import 'print_item_component.dart';
 
-class FramesPage extends StatefulWidget {
-  final Function(int, int)? onFrameSelected;
-
-  const FramesPage({super.key, this.onFrameSelected});
+class PrintsPage extends StatefulWidget {
+  const PrintsPage({super.key});
 
   @override
-  State<FramesPage> createState() => _FramesPageState();
+  State<PrintsPage> createState() => _PrintsPageState();
 }
 
-class _FramesPageState extends State<FramesPage> {
-  final _navigator = Modular.get<FrameRouteNavigator>();
+class _PrintsPageState extends State<PrintsPage> {
+  final _navigator = Modular.get<PrintRouteNavigator>();
   LastUsageOrder? selected;
   Timer? _debounce;
 
   @override
   void initState() {
     super.initState();
-    BlocProvider.of<FramesCubit>(context).onGetFramesSubmitted();
+    BlocProvider.of<PrintsCubit>(context).onGetPrintsSubmitted();
   }
 
   @override
@@ -44,7 +42,7 @@ class _FramesPageState extends State<FramesPage> {
             padding: const EdgeInsets.only(right: 40.0),
             child: Center(
               child: Text(
-                "Matrizes",
+                "Estampas",
                 style: Theme.of(context).textTheme.titleLarge,
               ),
             ),
@@ -60,9 +58,9 @@ class _FramesPageState extends State<FramesPage> {
                     _debounce?.cancel();
                     _debounce = Timer(const Duration(milliseconds: 500), () {
                       if (!mounted) return;
-                      BlocProvider.of<FramesCubit>(
+                      BlocProvider.of<PrintsCubit>(
                         context,
-                      ).onGetFramesSubmitted(inputFilter: value);
+                      ).onGetPrintsSubmitted(inputFilter: value);
                     });
                   },
                   decoration: InputDecoration(
@@ -78,9 +76,9 @@ class _FramesPageState extends State<FramesPage> {
                             setState(() {
                               selected = selectedOrder;
                             });
-                            BlocProvider.of<FramesCubit>(
+                            BlocProvider.of<PrintsCubit>(
                               context,
-                            ).onGetFramesSubmitted(
+                            ).onGetPrintsSubmitted(
                               lastUsageOrderFilter: selectedOrder?.name,
                             );
                             _navigator.pop();
@@ -91,7 +89,7 @@ class _FramesPageState extends State<FramesPage> {
                       },
                       icon: Icon(Icons.filter_list),
                     ),
-                    hintText: 'Pesquisar matriz...',
+                    hintText: 'Pesquisar estampa...',
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(8),
                     ),
@@ -104,52 +102,41 @@ class _FramesPageState extends State<FramesPage> {
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
-          child: BlocBuilder<FramesCubit, FramesState>(
+          child: BlocBuilder<PrintsCubit, PrintsState>(
             builder: (context, state) {
               if (state.status.isSuccess) {
-                return state.frames.isNotEmpty
+                return state.prints.isNotEmpty
                     ? ListView.separated(
                         separatorBuilder: (BuildContext context, int index) {
                           return const SizedBox(height: 12);
                         },
                         shrinkWrap: true,
-                        itemCount: state.frames.length,
+                        itemCount: state.prints.length,
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
-                            child: FrameItemComponent(
-                              frameModel: state.frames[index],
+                            child: PrintItemComponent(
+                              printModel: state.prints[index],
                             ),
-                            onTap: () => {
-                              if (widget.onFrameSelected != null)
-                                {
-                                  widget.onFrameSelected!(
-                                    state.frames[index].id,
-                                    state.frames[index].identifier,
-                                  ),
-                                  _navigator.pop(),
-                                }
-                              else
-                                _navigator.pushNamed(
-                                  '$frameRoute$createOrUpdateFrameRoute',
-                                  arguments: {
-                                    "frameId": state.frames[index].id,
-                                    "onFrameCreatedOrUpdated": () {
-                                      BlocProvider.of<FramesCubit>(
-                                        context,
-                                      ).onGetFramesSubmitted();
-                                    },
-                                  },
-                                ),
-                            },
+                            onTap: () => _navigator.pushNamed(
+                              '$printRoute$createOrUpdatePrintRoute',
+                              arguments: {
+                                "printId": state.prints[index].id,
+                                "onPrintCreatedOrUpdated": () {
+                                  BlocProvider.of<PrintsCubit>(
+                                    context,
+                                  ).onGetPrintsSubmitted();
+                                },
+                              },
+                            ),
                             onLongPress: () => custom_dialog.confirmAction(
                               context: context,
                               message:
-                                  'Tem certeza que deseja excluir esta matriz?',
+                                  'Tem certeza que deseja excluir esta estampa?',
                               onConfirm: () {
-                                BlocProvider.of<FramesCubit>(
+                                BlocProvider.of<PrintsCubit>(
                                   context,
-                                ).onDeleteFrameSubmitted(
-                                  frameId: state.frames[index].id,
+                                ).onDeletePrintSubmitted(
+                                  printId: state.prints[index].id,
                                 );
                               },
                             ),
@@ -158,7 +145,7 @@ class _FramesPageState extends State<FramesPage> {
                       )
                     : Center(
                         child: Text(
-                          'Nenhuma matriz encontrada.\n Adicione novas matrizes\npara começar a gerenciá-las.',
+                          'Nenhuma estampa encontrada.\n Adicione novas estampas\npara começar a gerenciá-las.',
                           textAlign: TextAlign.center,
                           style: Theme.of(context).textTheme.bodyMedium,
                         ),
@@ -166,9 +153,9 @@ class _FramesPageState extends State<FramesPage> {
               }
               if (state.status.isFailure) {
                 return GenericErrorComponent(
-                  onRetry: () => BlocProvider.of<FramesCubit>(
+                  onRetry: () => BlocProvider.of<PrintsCubit>(
                     context,
-                  ).onGetFramesSubmitted(),
+                  ).onGetPrintsSubmitted(),
                   errorCode: state.errorCode,
                 );
               }
@@ -180,10 +167,10 @@ class _FramesPageState extends State<FramesPage> {
           padding: const EdgeInsets.all(16.0),
           child: ElevatedButton(
             onPressed: () => _navigator.pushNamed(
-              '$frameRoute$createOrUpdateFrameRoute',
+              '$printRoute$createOrUpdatePrintRoute',
               arguments: {
-                "onFrameCreatedOrUpdated": () {
-                  BlocProvider.of<FramesCubit>(context).onGetFramesSubmitted();
+                "onPrintCreatedOrUpdated": () {
+                  BlocProvider.of<PrintsCubit>(context).onGetPrintsSubmitted();
                 },
               },
             ),

@@ -13,6 +13,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  final _navigator = Modular.get<HomeRouteNavigator>();
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -47,9 +49,14 @@ class _HomePageState extends State<HomePage> {
                                 title: 'Produção',
                                 icon: const Icon(Icons.factory),
                               ),
-                              MenuItemComponent(
-                                title: 'Estampas',
-                                svgImagePath: 'assets/images/tshirt.svg',
+                              GestureDetector(
+                                child: MenuItemComponent(
+                                  title: 'Estampas',
+                                  svgImagePath: 'assets/images/tshirt.svg',
+                                ),
+                                onTap: () {
+                                  _navigator.pushNamed(printRoute);
+                                },
                               ),
                               GestureDetector(
                                 child: MenuItemComponent(
@@ -57,8 +64,9 @@ class _HomePageState extends State<HomePage> {
                                   svgImagePath: 'assets/images/frame.svg',
                                 ),
                                 onTap: () {
-                                  Modular.get<HomeRouteNavigator>().pushNamed(
+                                  _navigator.pushNamed(
                                     frameRoute,
+                                    arguments: {'onFrameSelected': null},
                                   );
                                 },
                               ),
@@ -72,9 +80,7 @@ class _HomePageState extends State<HomePage> {
                                   icon: const Icon(Icons.business),
                                 ),
                                 onTap: () {
-                                  Modular.get<HomeRouteNavigator>().pushNamed(
-                                    companyRoute,
-                                  );
+                                  _navigator.pushNamed(companyRoute);
                                 },
                               ),
                               GestureDetector(
@@ -83,9 +89,7 @@ class _HomePageState extends State<HomePage> {
                                   icon: const Icon(Icons.account_circle),
                                 ),
                                 onTap: () {
-                                  Modular.get<HomeRouteNavigator>().pushNamed(
-                                    profileRoute,
-                                  );
+                                  _navigator.pushNamed(profileRoute);
                                 },
                               ),
                             ],

@@ -130,10 +130,7 @@ final class CreateOrUpdateFrameState extends Equatable {
     return CreateOrUpdateFrameState._(status: FormzSubmissionStatus.success);
   }
 
-  CreateOrUpdateFrameState withSubmissionFailure({
-    int? errorCode,
-    bool? isEmailInUse,
-  }) {
+  CreateOrUpdateFrameState withSubmissionFailure({int? errorCode}) {
     return CreateOrUpdateFrameState._(
       identifier: identifier,
       id: id,

@@ -7,8 +7,7 @@ import 'package:formz/formz.dart';
 import 'package:minhaserigrafia/modules/frame/cubit/create_or_update_frame_cubit.dart';
 import 'package:minhaserigrafia/modules/frame/model/frame_material_enum.dart';
 import 'package:minhaserigrafia/modules/frame/model/frame_model.dart';
-import 'package:minhaserigrafia/shared/helper/date_time_helper.dart'
-    as date_time_helper;
+import 'package:minhaserigrafia/shared/ui/date_picker_field.dart';
 
 class CreateOrUpdateFrameComponent extends StatelessWidget {
   final FrameModel frameModel;
@@ -32,7 +31,7 @@ class CreateOrUpdateFrameComponent extends StatelessWidget {
         const SizedBox(height: 12),
         _LinesInput(lines: frameModel.lines),
         const SizedBox(height: 12),
-        _DatePickerField(
+        DatePickerField(
           initialDate: frameModel.lastUsageAt,
           onDateChanged: (date) {
             BlocProvider.of<CreateOrUpdateFrameCubit>(
@@ -318,90 +317,6 @@ class _SaveButton extends StatelessWidget {
             ).onUpdateFrameSubmitted()
           : null,
       child: const Text('Salvar'),
-    );
-  }
-}
-
-class _DatePickerField extends StatefulWidget {
-  final String initialDate;
-  final ValueChanged<DateTime> onDateChanged;
-
-  const _DatePickerField({
-    required this.initialDate,
-    required this.onDateChanged,
-  });
-
-  @override
-  State<_DatePickerField> createState() => _DatePickerFieldState();
-}
-
-class _DatePickerFieldState extends State<_DatePickerField> {
-  late final TextEditingController _controller;
-  DateTime? _selectedDate;
-
-  @override
-  void initState() {
-    super.initState();
-    _selectedDate = date_time_helper.tryParseBrazilianDate(widget.initialDate);
-    _controller = TextEditingController(text: widget.initialDate);
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  String _formatDate(DateTime? date) {
-    if (date == null) return '';
-    final d = date.day.toString().padLeft(2, '0');
-    final m = date.month.toString().padLeft(2, '0');
-    final y = date.year.toString();
-    return '$d/$m/$y';
-  }
-
-  Future<void> _pickDate() async {
-    final now = DateTime.now();
-    final initial = _selectedDate ?? now;
-    final picked = await showDatePicker(
-      context: context,
-      initialDate: initial,
-      firstDate: DateTime(1900),
-      lastDate: DateTime(2100),
-      locale: const Locale('pt', 'BR'),
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: Theme.of(context).copyWith(
-            colorScheme: Theme.of(context).colorScheme.copyWith(
-              primary: Colors.white,
-              onPrimary: Colors.black,
-              surface: Colors.white,
-            ),
-            textButtonTheme: TextButtonThemeData(
-              style: TextButton.styleFrom(foregroundColor: Colors.white),
-            ),
-          ),
-          child: child ?? const SizedBox.shrink(),
-        );
-      },
-    );
-    if (picked != null) {
-      setState(() {
-        _selectedDate = picked;
-        _controller.text = _formatDate(picked);
-      });
-      widget.onDateChanged.call(picked);
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return TextField(
-      controller: _controller,
-      readOnly: true,
-      onTap: _pickDate,
-      decoration: InputDecoration(labelText: 'Usado pela última vez no dia:'),
-      style: const TextStyle(color: Colors.black),
     );
   }
 }

@@ -96,6 +96,7 @@ ThemeData defaultTheme = ThemeData(
   ),
   elevatedButtonTheme: ElevatedButtonThemeData(
     style: ElevatedButton.styleFrom(
+
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
       minimumSize: const Size(double.infinity, 60),
       backgroundColor: Colors.black,
@@ -155,7 +156,7 @@ ThemeData defaultTheme = ThemeData(
       overflow: TextOverflow.fade,
     ),
     labelStyle: const TextStyle(
-      color: ThemeColors.grayLight2,
+      color: ThemeColors.grayLight3,
       fontSize: 16,
       overflow: TextOverflow.fade,
     ),

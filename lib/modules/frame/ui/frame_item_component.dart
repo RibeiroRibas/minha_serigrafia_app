@@ -67,6 +67,11 @@ class FrameItemComponent extends StatelessWidget {
   }
 
   String _getPrintsWithCustomers() => frameModel.prints
-      .map((p) => '${p.printName}(${p.customerName})')
+      .map((p) {
+        String customerName = p.customerName.isNotEmpty
+            ? '(${p.customerName})'
+            : '';
+        return '${p.printName}$customerName';
+      })
       .join(' ');
 }

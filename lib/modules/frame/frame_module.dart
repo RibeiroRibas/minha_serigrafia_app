@@ -30,7 +30,7 @@ class FrameModule extends Module {
       startRote,
       child: (_) => BlocProvider<FramesCubit>.value(
         value: Modular.get<FramesCubit>(),
-        child: const FramesPage(),
+        child: FramesPage(onFrameSelected: r.args.data["onFrameSelected"]),
       ),
     );
     r.child(

@@ -22,3 +22,8 @@ const String profileRoute = "/profile";
 const String frameRoute = "/frames";
 const String createOrUpdateFrameRoute = "/create_or_update_frame";
 
+//print
+const String printRoute = "/prints";
+const String createOrUpdatePrintRoute = "/create_or_update_print";
+const String selectColorRoute = "/select_color";
+

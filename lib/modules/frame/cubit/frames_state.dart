@@ -21,7 +21,7 @@ final class FramesState extends Equatable {
     return FramesState._(status: FormzSubmissionStatus.success, frames: frames);
   }
 
-  FramesState withSubmissionFailure({int? errorCode, bool? isEmailInUse}) {
+  FramesState withSubmissionFailure({int? errorCode}) {
     return FramesState._(
       status: FormzSubmissionStatus.failure,
       errorCode: errorCode ?? this.errorCode,
