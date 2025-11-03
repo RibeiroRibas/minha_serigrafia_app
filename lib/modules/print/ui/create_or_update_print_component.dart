@@ -132,6 +132,7 @@ class _CustomerInput extends StatefulWidget {
 
 class _CustomerInputState extends State<_CustomerInput> {
   late final TextEditingController _controller;
+  final _navigator = Modular.get<PrintRouteNavigator>();
 
   @override
   void initState() {
@@ -149,7 +150,17 @@ class _CustomerInputState extends State<_CustomerInput> {
   Widget build(BuildContext context) {
     return TextFormField(
       readOnly: true,
-      onTap: () {},
+      onTap: () => _navigator.pushNamed(
+        customerRoute,
+        arguments: {
+          'onCustomerSelected': (int customerId, String customerName) {
+            _controller.text = customerName;
+            BlocProvider.of<CreateOrUpdatePrintCubit>(
+              context,
+            ).onCustomerIdChanged(customerId.toString());
+          },
+        },
+      ),
       controller: _controller,
       decoration: InputDecoration(
         suffixIcon: Icon(

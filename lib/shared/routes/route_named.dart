@@ -27,3 +27,7 @@ const String printRoute = "/prints";
 const String createOrUpdatePrintRoute = "/create_or_update_print";
 const String selectColorRoute = "/select_color";
 
+//customer
+const String customerRoute = "/customers";
+const String createOrUpdateCustomerRoute = "/create_or_update_customer";
+

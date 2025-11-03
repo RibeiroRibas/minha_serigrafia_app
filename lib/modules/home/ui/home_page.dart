@@ -73,9 +73,17 @@ class _HomePageState extends State<HomePage> {
                                   );
                                 },
                               ),
-                              MenuItemComponent(
-                                title: 'Clientes',
-                                icon: const Icon(Icons.person),
+                              GestureDetector(
+                                child: MenuItemComponent(
+                                  title: 'Clientes',
+                                  icon: const Icon(Icons.person),
+                                ),
+                                onTap: () {
+                                  _navigator.pushNamed(
+                                    customerRoute,
+                                    arguments: {'onCustomerSelected': null},
+                                  );
+                                },
                               ),
                               GestureDetector(
                                 child: MenuItemComponent(

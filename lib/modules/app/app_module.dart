@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:minhaserigrafia/modules/auth/auth_module.dart';
 import 'package:minhaserigrafia/modules/company/company_module.dart';
+import 'package:minhaserigrafia/modules/customer/customer_module.dart';
 import 'package:minhaserigrafia/modules/frame/frame_module.dart';
 import 'package:minhaserigrafia/modules/home/home_module.dart';
 import 'package:minhaserigrafia/modules/print/print_module.dart';
@@ -23,5 +24,6 @@ class AppModule extends Module {
     r.module(profileRoute, module: ProfileModule());
     r.module(frameRoute, module: FrameModule());
     r.module(printRoute, module: PrintModule());
+    r.module(customerRoute, module: CustomerModule());
   }
 }
